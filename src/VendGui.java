@@ -1,4 +1,6 @@
 //Ç®Ç¢Ç®Ç¢setBackgroundÇ…ïsãÔçáÇ†ÇÈÇ∆Ç©ï∑Ç¢ÇƒÇÀÇ¶ÇÊwãñÇ≥Ç w
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,7 +15,8 @@ class VendGui extends JFrame{
 	ImageIcon red 			= new ImageIcon("../img/red.jpg");
 	ImageIcon light_green 	= new ImageIcon("../img/light_green.jpg");
 	ImageIcon yellow 		= new ImageIcon("../img/yellow.jpg");
-	
+	//Path to background image.
+	ImageIcon background    = new ImageIcon("../img/background.gif");
 	
 	//main
 	public static void main(String args[]){
@@ -26,20 +29,21 @@ class VendGui extends JFrame{
 		setTitle(title);
 		setSize(480, 250);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		setBackground(Color.pink);
 		
 		//No use layout manager.
 		this.setLayout(null);
 		
 		//Station buttons set.
 		//StationButton("station_name", price, x, y)
-		StationButton tatu_btn = new StationButton("ó≥ìcå˚", 450, 350, 20);
-		StationButton heis_btn = new StationButton("ïΩê¨", 150, 280, 70);
-		StationButton kami_btn = new StationButton("è„åFñ{", 150, 150, 60);
-		StationButton home_btn = new StationButton("åªç›ín", 0, 210, 110);
-		StationButton yatu_btn = new StationButton("î™ë„", 450, 100, 190);
-		StationButton kawa_btn = new StationButton("êÏêK", 150, 160, 160);
-		StationButton tama_btn = new StationButton("ã ñº", 200, 80, 60);
-		StationButton arao_btn = new StationButton("çrîˆ", 450, 20, 20);
+		StationButton tatu_btn = new StationButton("Tatsutaguchi", 450, 350, 20);
+		StationButton heis_btn = new StationButton("Heisei", 150, 280, 70);
+		StationButton kami_btn = new StationButton("Kamikumamoto", 150, 150, 60);
+		StationButton home_btn = new StationButton("Yourplace.", 0, 210, 110);
+		StationButton yatu_btn = new StationButton("Yatsushiro", 450, 100, 190);
+		StationButton kawa_btn = new StationButton("Kawashiri", 150, 160, 160);
+		StationButton tama_btn = new StationButton("Tamana", 200, 80, 60);
+		StationButton arao_btn = new StationButton("Arao", 450, 20, 20);
 		add(tatu_btn);
 		add(heis_btn);
 		add(kami_btn);
@@ -75,14 +79,14 @@ class VendGui extends JFrame{
 		DispAmount charge_dsp = new DispAmount(340, 205);
 		add(input_dsp);
 		add(charge_dsp);
-		
+	
 		//Display label
-		JLabel input_label = new JLabel("ìäì¸ã‡äz");
-		JLabel charge_label = new JLabel();
-		input_label.setLocation(200,180);
-		charge_label.setLocation(300,205);
-		add(input_label);
-		add(charge_label);
+		DisplayLabel input_lbl = new DisplayLabel("Amount", 285, 180);
+		DisplayLabel charge_lbl = new DisplayLabel("Charge", 290,205);
+		add(input_lbl);
+		add(charge_lbl);
+		
+		input_dsp.setAmount();
 	}
 	
 }

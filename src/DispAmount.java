@@ -12,4 +12,8 @@ public class DispAmount extends JTextField{
 		this.setEditable(false);
 		this.setHorizontalAlignment(RIGHT);
 	}
+	
+	public void setAmount(){
+		this.setText("");
+	}
 }

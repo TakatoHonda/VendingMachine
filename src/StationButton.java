@@ -1,0 +1,21 @@
+import javax.swing.JButton;
+
+
+@SuppressWarnings("serial")
+public class StationButton extends JButton{
+	private String name;
+	private int   price;
+			
+	StationButton(String name, int price, int x, int y){
+		this.name  = name;
+		this.price = price;
+		this.setBounds(x,y,30,30);
+		if(price!=0){this.setText(""+price);}
+	}
+	
+	//Getter
+	@Override
+	public String getName(){return name;}
+	public int getPrice(){return  price;}
+	 
+}

@@ -1,17 +1,27 @@
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 
 @SuppressWarnings("serial")
-public class ResetButton extends JButton{
-	ResetButton(int x,int y,ImageIcon color){
-		JLabel label = new JLabel("RST");
-		this.setIcon(color);//I don't know how to use "setBackground(Color.color)".
-							//If I use "setBackground", no change the button's color.
-							//Already, I had this idea for change button's color.
-		add(label);
+public class ResetButton extends JButton implements MouseListener{
+	int x=435,y=205;
+	ImageIcon icon = new ImageIcon("../img/rstIcon.png");
+	ResetButton(){
 		this.setBounds(x, y, 40, 21);
+		this.setIcon(icon);
 		}
+	
+	public void mouseClicked(MouseEvent e){
+		
+	}
+	public void mouseEntered(MouseEvent e){}
+	public void mousePressed(MouseEvent e){}
+	public void mouseReleased(MouseEvent e){}
+	public void mouseExited(MouseEvent e){}
+	
 
 }

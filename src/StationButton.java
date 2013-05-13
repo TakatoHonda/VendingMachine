@@ -8,7 +8,7 @@ public class StationButton extends JButton implements MouseListener{
 	private String name;
 	private int price;
 	private CoinCounter coinCounter;
-	private ConfirmWindow CFW;
+	private ConfirmWindow confirmWindow;
 	ImageIcon buttonLight = new ImageIcon("./img/stationIcon.gif");
 	private String route;
 	StationButton(String name, int price, int x, int y, CoinCounter coinCounter, String route) {
@@ -48,8 +48,8 @@ public class StationButton extends JButton implements MouseListener{
 	}
 	public void mouseClicked(MouseEvent e){
 		try{
-		CFW = new ConfirmWindow(name, "time", price, route);
-		CFW.setVisible(true);
+		confirmWindow = new ConfirmWindow(name, "time", price, route);
+		confirmWindow.setVisible(true);
 		}catch(Exception e1){
 			System.out.println("Error in mouseClicked().");
 		}

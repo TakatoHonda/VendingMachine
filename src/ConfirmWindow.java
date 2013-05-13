@@ -1,5 +1,6 @@
 import java.awt.Color;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,11 +13,12 @@ public class ConfirmWindow extends JFrame {
 	private JButton cancelButton;
 	private JLabel leaveTimeLabel;
 	private ReadTimeTable timeTable = new ReadTimeTable();
+	private ConfirmWindow confirmWindow = this;
+	
 	ConfirmWindow(String StationName, String Time, int price, String route) {
-
 		setTitle("Go to " + StationName);
 		setSize(280, 150);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBackground(Color.white);
 		setResizable(false);
 		this.setLayout(null);
@@ -32,14 +34,25 @@ public class ConfirmWindow extends JFrame {
 		leaveTimeLabel = new JLabel("Next departure time: " + timeTable.getLeaveTime(route));
 		leaveTimeLabel.setBounds(50, 70, 200, 15);
 		add(leaveTimeLabel);
-		
+
 		confirmButton = new JButton("Confirm");
 		confirmButton.setBounds(50, 80, 80, 30);
+		confirmButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("ConfirmButton OK.");
+			}
+		});
 		add(confirmButton);
-
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(150, 80, 80, 30);
-		add(cancelButton);
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("CancelButton OK.");
+				confirmWindow.setVisible(false);
+			}
+		});
 
+		add(cancelButton);
 	}
+
 }

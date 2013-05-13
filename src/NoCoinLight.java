@@ -16,7 +16,7 @@ public class NoCoinLight extends JLabel {
 		this.coin = coin;
 	}
 
-	// If there is no coin, change color to red
+	// If there is no coin, change color to red.
 	void changeColor() {
 		if (coin == 50 && coinCounter.getCoin50() < 3) {
 			this.setForeground(Color.red);

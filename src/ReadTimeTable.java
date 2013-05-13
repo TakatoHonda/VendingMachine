@@ -14,9 +14,7 @@ public class ReadTimeTable {
 	ReadTimeTable() {
 		try {
 			File timeTable = new File("./res/TimeTable.csv");
-
 			BufferedReader br = new BufferedReader(new FileReader(timeTable));
-
 			String line = "";
 			int cnt = 0;
 			while ((line = br.readLine()) != null) {

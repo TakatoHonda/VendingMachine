@@ -1,4 +1,3 @@
-
 public class CoinCounter {
 	private int coin50;
 	private int coin100;

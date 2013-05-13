@@ -7,9 +7,9 @@ public class RoundTripButton extends JButton implements MouseListener {
 	boolean isClickedFlag = false;
 	StationLabel[] st_lbl;
 	StationButton[] stations;
-	ImageIcon offIcon = new ImageIcon("../img/roundTripIcon_off.png");
-	ImageIcon onIcon = new ImageIcon("../img/roundTripIcon_on.png");
-	int x = 435, y = 125;
+	ImageIcon offIcon = new ImageIcon("./img/roundTripIcon_off.png");
+	ImageIcon onIcon = new ImageIcon("./img/roundTripIcon_on.png");
+	int x = 430, y = 125;
 
 	RoundTripButton(StationLabel[] st_lbl, StationButton[] stations) {
 		this.setBounds(x, y, 40, 50);

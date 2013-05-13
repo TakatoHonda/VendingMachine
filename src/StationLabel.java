@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class StationLabel extends JLabel{
 	private String sta_name;
 	private int price;

@@ -5,12 +5,11 @@ public class CoinCounter {
 	private int coin500;
 	private boolean coinMaxFlag;
 	DispAmount dispValue;
-	CoinCounter(DispAmount dispValue){
-		coin50 =0;
-		coin100=0;
-		coin500=0;
+	CoinCounter(){
+		coin50 =5;
+		coin100=5;
+		coin500=5;
 		coinMaxFlag=false;
-		this.dispValue = dispValue;
 	}
 	public void setCoin(int coin){
 		if(coin50<100 && coin100<100 && coin500<100){
@@ -21,16 +20,21 @@ public class CoinCounter {
 		
 	}
 	public int getAmount(){
-		int amount = coin50*50 + coin100*100 + coin500*500;
+		int amount = (coin50-5)*50 + (coin100-5)*100 + (coin500-5)*500;
 		return amount;
 	}
 	public boolean isCoinMax(){
 		return coinMaxFlag;
 	}
 	public void clear(){
-		coin50 = 0;
-		coin100 = 0;
-		coin500 = 0;
+		coin50  = 5;
+		coin100 = 5;
+		coin500 = 5;
 		coinMaxFlag = false;
 	}
+	public int getCoin50() {return  coin50;}
+	public int getCoin100(){return coin100;}
+	public int getCoin500(){return coin500;}
+	
+	
 }

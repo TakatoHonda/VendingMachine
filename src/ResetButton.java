@@ -3,13 +3,12 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 
 @SuppressWarnings("serial")
 public class ResetButton extends JButton implements MouseListener{
-	int x=435,y=205;
-	ImageIcon icon = new ImageIcon("../img/rstIcon.png");
+	int x=430,y=205;
+	ImageIcon icon = new ImageIcon("./img/rstIcon.png");
 	ResetButton(){
 		this.setBounds(x, y, 40, 21);
 		this.setIcon(icon);

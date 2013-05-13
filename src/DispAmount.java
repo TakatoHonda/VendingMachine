@@ -3,12 +3,12 @@ import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class DispAmount extends JTextField{
-	private int dispValue;
+	private int dspValue;
 	
 	DispAmount(int x,int y){
-		this.dispValue = 0;
+		this.dspValue = 0;
 		this.setBounds(x,y,80,20);
-		this.setText(Integer.toString(dispValue));
+		this.setText(Integer.toString(dspValue));
 		this.setEditable(false);
 		this.setHorizontalAlignment(RIGHT);
 	}
@@ -18,7 +18,7 @@ public class DispAmount extends JTextField{
 		
 	}
 	public void clear(){
-		dispValue = 0;
-		this.setText(""+dispValue);
+		dspValue = 0;
+		this.setText(""+dspValue);
 	}
 }

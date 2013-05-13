@@ -21,11 +21,11 @@ public class StationButton extends JButton implements MouseListener{
 		this.setIcon(buttonLight);
 	}
 
-	public void setEnabled() {
-		if (this.price <= coinCounter.getAmount()) {
+	public void setButtonState() {
+		if ((this.price <= coinCounter.getAmount()) && (this.isEnabled() == false)) {
 			this.setEnabled(true);
 			addMouseListener(this);
-		} else {
+		} else if((this.price >= coinCounter.getAmount()) && (this.isEnabled() == true)){
 			this.setEnabled(false);
 			removeMouseListener(this);
 		}
@@ -47,6 +47,7 @@ public class StationButton extends JButton implements MouseListener{
 		return price;
 	}
 	public void mouseClicked(MouseEvent e){
+		System.out.println("mouse clicked");
 		try{
 		confirmWindow = new ConfirmWindow(name, "time", price, route);
 		confirmWindow.setVisible(true);

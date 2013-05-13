@@ -33,7 +33,7 @@ public class RetButton extends JButton implements MouseListener {
 		no100Light.changeColor();
 		dispInput.setAmount(0);
 		for(int i=0;i<stations.length;i++){
-			stations[i].setEnabled();
+			stations[i].setButtonState();
 		}
 	}
 

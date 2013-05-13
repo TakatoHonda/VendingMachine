@@ -27,7 +27,7 @@ private DispAmount dspInput;
 		coinCounter.setCoin(value);
 		dspInput.setAmount(coinCounter.getAmount());
 		for(int i=0; i<stations.length; i++){
-				stations[i].setEnabled();
+				stations[i].setButtonState();
 		}
 	}
 	public void mouseEntered (MouseEvent e){}

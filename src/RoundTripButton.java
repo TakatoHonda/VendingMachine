@@ -5,15 +5,15 @@ import java.awt.event.*;
 @SuppressWarnings("serial")
 public class RoundTripButton extends JButton implements MouseListener {
 	boolean isClickedFlag = false;
-	StationLabel[] st_lbl;
+	StationLabel[] stLabel;
 	StationButton[] stations;
 	ImageIcon offIcon = new ImageIcon("./img/roundTripIcon_off.png");
 	ImageIcon onIcon = new ImageIcon("./img/roundTripIcon_on.png");
 	int x = 430, y = 125;
 
-	RoundTripButton(StationLabel[] st_lbl, StationButton[] stations) {
+	RoundTripButton(StationLabel[] stLabel, StationButton[] stations) {
 		this.setBounds(x, y, 40, 50);
-		this.st_lbl = st_lbl;
+		this.stLabel = stLabel;
 		this.stations = stations;
 		this.setIcon(offIcon);
 		addMouseListener(this);
@@ -31,11 +31,11 @@ public class RoundTripButton extends JButton implements MouseListener {
 			isClickedFlag = true;
 			this.setIcon(onIcon);
 		}
-
-		for (int i = 0; i < st_lbl.length; i++) {
-			st_lbl[i].setPrice(isClickedFlag);
+		for (int i = 0; i < stations.length; i++) {
+			stLabel[i].setPrice(isClickedFlag);
 			stations[i].setDoublePrice(isClickedFlag);
-			stations[i].setEnabled();
+			stations[i].setButtonState();
+			if(i==stations.length-1){stLabel[i+1].setPrice(isClickedFlag);}
 		}
 	}
 

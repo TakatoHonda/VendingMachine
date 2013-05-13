@@ -18,7 +18,7 @@ public class ConfirmWindow extends JFrame {
 	ConfirmWindow(String StationName, String Time, int price, String route) {
 		setTitle("Go to " + StationName);
 		setSize(280, 150);
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBackground(Color.white);
 		setResizable(false);
 		this.setLayout(null);

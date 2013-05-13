@@ -35,7 +35,7 @@ public class RoundTripButton extends JButton implements MouseListener {
 		for (int i = 0; i < st_lbl.length; i++) {
 			st_lbl[i].setPrice(isClickedFlag);
 			stations[i].setDoublePrice(isClickedFlag);
-			stations[i].setButtonLight();
+			stations[i].setEnabled();
 		}
 	}
 

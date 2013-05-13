@@ -19,14 +19,15 @@ public class StationButton extends JButton implements MouseListener{
 		this.route = route;
 		this.setBounds(x, y, 30, 30);
 		this.setIcon(buttonLight);
-		addMouseListener(this);
 	}
 
-	public void setButtonLight() {
+	public void setEnabled() {
 		if (this.price <= coinCounter.getAmount()) {
 			this.setEnabled(true);
+			addMouseListener(this);
 		} else {
 			this.setEnabled(false);
+			removeMouseListener(this);
 		}
 	}
 

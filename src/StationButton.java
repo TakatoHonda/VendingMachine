@@ -47,9 +47,9 @@ public class StationButton extends JButton implements MouseListener{
 		return price;
 	}
 	public void mouseClicked(MouseEvent e){
-		System.out.println("mouse clicked");
 		try{
 		confirmWindow = new ConfirmWindow(name, "time", price, route);
+		System.out.println("create ConfirmWindow.");
 		confirmWindow.setVisible(true);
 		}catch(Exception e1){
 			System.out.println("Error in mouseClicked().");

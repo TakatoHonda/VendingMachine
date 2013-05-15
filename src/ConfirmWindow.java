@@ -16,42 +16,52 @@ public class ConfirmWindow extends JFrame {
 	private ConfirmWindow confirmWindow = this;
 	
 	ConfirmWindow(String StationName, String Time, int price, String route) {
+		//Set confirmWindow property
 		setTitle("Go to " + StationName);
-		setSize(280, 150);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBackground(Color.white);
+		setSize(470, 250);
+		setBackground(new Color(0x64000000, true));
+		setAlwaysOnTop(true);
 		setResizable(false);
-		this.setLayout(null);
+		setUndecorated(true);
+		setLayout(null);
 
+		//stationNameLabel
 		stationNameLabel = new JLabel("Ticket to " + StationName + ".");
-		stationNameLabel.setBounds(50, 30, 200, 10);
+		stationNameLabel.setBounds(150, 30, 200, 10);
+		stationNameLabel.setForeground(Color.white);
 		add(stationNameLabel);
-
+		
+		//priceLabel
 		priceLabel = new JLabel("The Price is " + price + ".");
-		priceLabel.setBounds(50, 50, 150, 10);
+		priceLabel.setBounds(150, 50, 150, 10);
+		priceLabel.setForeground(Color.white);
 		add(priceLabel);
 
+		//leaveTimeLabel
 		leaveTimeLabel = new JLabel("Next departure time: " + timeTable.getLeaveTime(route));
-		leaveTimeLabel.setBounds(50, 70, 200, 15);
+		leaveTimeLabel.setBounds(150, 70, 200, 10);
+		leaveTimeLabel.setForeground(Color.white);
 		add(leaveTimeLabel);
 
+		//confirmButton
 		confirmButton = new JButton("Confirm");
-		confirmButton.setBounds(50, 80, 80, 30);
+		confirmButton.setBounds(150, 80, 80, 30);
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("ConfirmButton OK.");
 			}
 		});
 		add(confirmButton);
+		
+		//CancelButton
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(150, 80, 80, 30);
+		cancelButton.setBounds(250, 80, 80, 30);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("CancelButton OK.");
 				confirmWindow.setVisible(false);
 			}
 		});
-
 		add(cancelButton);
 	}
 

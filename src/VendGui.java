@@ -23,6 +23,7 @@ class VendGui extends JFrame {
 	public static void main(String args[]) {
 		VendGui gui = new VendGui("Ticket");
 		gui.setVisible(true);
+		vm.ioRET();
 	}
 
 	VendGui(String title) {
@@ -60,9 +61,9 @@ class VendGui extends JFrame {
 		add(dspCharge);
 
 		// Set Coin buttons
-		CoinButton coin50Button = new CoinButton(50, 430, 5, coin50Icon, coinCounter, stations, dspInput);
-		CoinButton coin100Button = new CoinButton(100, 430, 45, coin100Icon, coinCounter, stations, dspInput);
-		CoinButton coin500Button = new CoinButton(500, 430, 85, coin500Icon, coinCounter, stations, dspInput);
+		CoinButton coin50Button = new CoinButton(50, 430, 5, coin50Icon, coinCounter, stations, dspInput, vm);
+		CoinButton coin100Button = new CoinButton(100, 430, 45, coin100Icon, coinCounter, stations, dspInput, vm);
+		CoinButton coin500Button = new CoinButton(500, 430, 85, coin500Icon, coinCounter, stations, dspInput, vm);
 		add(coin50Button);
 		add(coin100Button);
 		add(coin500Button);
@@ -113,7 +114,7 @@ class VendGui extends JFrame {
 		add(no100Light);
 
 		// Return coin button
-		RetButton retButton = new RetButton(coinCounter, dspInput, no50Light, no100Light, stations);
+		RetButton retButton = new RetButton(coinCounter, dspInput, no50Light, no100Light, stations, vm);
 		add(retButton);
 
 		// Set background

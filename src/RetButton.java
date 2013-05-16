@@ -7,15 +7,15 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class RetButton extends JButton implements MouseListener {
 	
-	ImageIcon icon = new ImageIcon("./img/retIcon.png");
-	int x = 430, y = 180;
-	DispAmount dispInput;
-	CoinCounter coinCounter;
-	NoCoinLight no50Light;
-	NoCoinLight no100Light;
-	StationButton[] stations;
-
-	RetButton(CoinCounter coinCounter, DispAmount dispValue, NoCoinLight no50Light, NoCoinLight no100Light, StationButton[] stations) {
+	private ImageIcon icon = new ImageIcon("./img/retIcon.png");
+	private int x = 430, y = 180;
+	private DispAmount dispInput;
+	private CoinCounter coinCounter;
+	private NoCoinLight no50Light;
+	private NoCoinLight no100Light;
+	private StationButton[] stations;
+	private VendingMachine vm;
+	RetButton(CoinCounter coinCounter, DispAmount dispValue, NoCoinLight no50Light, NoCoinLight no100Light, StationButton[] stations, VendingMachine vm) {
 		this.setBounds(x, y, 40, 21);
 		this.setIcon(icon);
 		this.coinCounter = coinCounter;
@@ -23,12 +23,14 @@ public class RetButton extends JButton implements MouseListener {
 		this.no50Light = no50Light;
 		this.no100Light = no100Light;
 		this.stations = stations;
+		this.vm = vm;
 		addMouseListener(this);
 		
 	}
 
 	public void mouseClicked(MouseEvent e) {
 		coinCounter.clear();// Initial
+		vm.ioRET();
 		no50Light.changeColor();
 		no100Light.changeColor();
 		dispInput.setAmount(0);

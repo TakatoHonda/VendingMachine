@@ -1,43 +1,47 @@
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+
 import java.awt.event.*;
 
 @SuppressWarnings("serial")
 public class RoundTripButton extends JButton implements MouseListener {
-	boolean isClickedFlag = false;
+	boolean isRoundTrip = false;
 	StationLabel[] stLabel;
 	StationButton[] station;
+	TransitionState transitionState;
 	ImageIcon offIcon = new ImageIcon("./img/roundTripIcon_off.png");
 	ImageIcon onIcon = new ImageIcon("./img/roundTripIcon_on.png");
 	int x = 430, y = 125;
 
-	RoundTripButton(StationLabel[] stLabel, StationButton[] station) {
+	RoundTripButton(StationLabel[] stLabel, StationButton[] station, TransitionState transitionState) {
 		this.setBounds(x, y, 40, 50);
 		this.stLabel = stLabel;
 		this.station = station;
+		this.transitionState = transitionState;
 		this.setIcon(offIcon);
 		addMouseListener(this);
 	}
 
 	public boolean isClicked() {
-		return isClickedFlag;
+		return isRoundTrip;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (isClickedFlag) {
-			isClickedFlag = false;
+		if (isRoundTrip) {
+			isRoundTrip = false;
 			this.setIcon(offIcon);
 		} else {
-			isClickedFlag = true;
+			isRoundTrip = true;
 			this.setIcon(onIcon);
 		}
 		
 		for (int i = 0; i < station.length; i++) {
-			stLabel[i].setPrice(isClickedFlag);
-			//station[i].setDoublePrice(isClickedFlag);
-			station[i].setRoundTrip(isClickedFlag);
-			station[i].setButtonState();
-			if(i==station.length-1){stLabel[i+1].setPrice(isClickedFlag);}
+			stLabel[i].setPrice(isRoundTrip);
+			station[i].setDoublePrice(isRoundTrip);
+			transitionState.setState();
+			if(i==station.length-1){stLabel[i+1].setPrice(isRoundTrip);}
 		}
 	}
 

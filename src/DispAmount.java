@@ -5,8 +5,7 @@ public class DispAmount extends JTextField {
 	private int dspValue;
 	private int c50, c100, c500;
 	private VendingMachine vm;
-	private VendGui gui;
-	DispAmount(int x, int y, VendingMachine vm, VendGui gui) {
+	DispAmount(int x, int y, VendingMachine vm) {
 		this.dspValue = 0;
 		this.c50=0;
 		this.c100=0;
@@ -14,7 +13,6 @@ public class DispAmount extends JTextField {
 		this.setBounds(x, y, 80, 20);
 		this.setText(Integer.toString(dspValue));
 		this.vm = vm;
-		this.gui=gui;
 		this.setEditable(false);
 		this.setHorizontalAlignment(RIGHT);
 	}

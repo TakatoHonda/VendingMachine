@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 @SuppressWarnings("serial")
 public class ConfirmWindow extends JFrame{
 	ImageIcon ConButIcon = new ImageIcon("./img/confirm-button.png");
@@ -23,7 +24,7 @@ public class ConfirmWindow extends JFrame{
 	public static class Builder{
 	}
 
-	ConfirmWindow(final StationButton station, final DispAmount dspCharge, CoinCounter coinCounter,
+	ConfirmWindow(final StationButton station, final DispAmount dspCharge, TransitionState transitionState,
 			final VendingMachine vm, final VendGui gui){
 		this.dspCharge = dspCharge;
 		// Set confirmWindow property

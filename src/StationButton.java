@@ -1,3 +1,5 @@
+
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
@@ -13,9 +15,10 @@ public class StationButton extends JButton implements MouseListener{
 	//private int posX,posY;
 
 	private DispAmount    dspCharge;
-	private CoinCounter   coinCounter;
+	private TransitionState   transitionState;
 	private VendingMachine vm;
 	private VendGui gui;
+	
 	public static class Builder{
 		private int cnt=0;
 		private String name;
@@ -24,12 +27,12 @@ public class StationButton extends JButton implements MouseListener{
 		private int    posX,posY;
 
 		private DispAmount     dspCharge;
-		private CoinCounter    coinCounter;
+		private TransitionState    transitionState;
 		private VendingMachine vm;
 		private VendGui        gui;
-		public Builder(DispAmount dspCharge, CoinCounter coinCounter, VendingMachine vm, VendGui gui){
+		public Builder(DispAmount dspCharge, TransitionState transitionState, VendingMachine vm, VendGui gui){
 			this.dspCharge = dspCharge;
-			this.coinCounter = coinCounter;
+			this.transitionState = transitionState;
 			this.vm = vm;
 			this.gui = gui;
 		}
@@ -68,29 +71,29 @@ public class StationButton extends JButton implements MouseListener{
 		name = builder.name;
 		price = builder.price;
 		route = builder.route;
-		coinCounter = builder.coinCounter;
+		transitionState = builder.transitionState;
 		dspCharge = builder.dspCharge;
 		vm = builder.vm;
 		gui = builder.gui;
 		this.setBounds(builder.posX, builder.posY, 30, 30);
 		this.setIcon(buttonLight);
 	}
-	public void setButtonState(){
-		if ((price <= coinCounter.getAmount()) && (this.isEnabled() == false)){
+	public void setButtonState(int amount){
+		if ((price <= amount) && (this.isEnabled() == false)){
 			this.setEnabled(true);
 			addMouseListener(this);
-		} else if ((price >= coinCounter.getAmount()) && (this.isEnabled() == true)){
+		} else if ((price >= amount) && (this.isEnabled() == true)){
 			this.setEnabled(false);
 			removeMouseListener(this);
 		}
 	}
-/*	public void setDoublePrice(boolean isRoundTrip){
+	public void setDoublePrice(boolean isRoundTrip){
 		if (isRoundTrip){
 			price *= 2;
 		} else{
 			price /= 2;
 		}
-	}*/
+	}
 	public void setRoundTrip(boolean isRoundTripFlag){
 		this.isRoundTripFlag = isRoundTripFlag;
 	}
@@ -107,7 +110,7 @@ public class StationButton extends JButton implements MouseListener{
 		return isRoundTripFlag;
 	}
 	public void mouseClicked(MouseEvent e){
-			ConfirmWindow confirmWindow = new ConfirmWindow(this, dspCharge, coinCounter, vm, gui);
+			ConfirmWindow confirmWindow = new ConfirmWindow(this, dspCharge, transitionState, vm, gui);
 			confirmWindow.setVisible(true);
 	}
 

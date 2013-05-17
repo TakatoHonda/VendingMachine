@@ -5,68 +5,122 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class StationButton extends JButton implements MouseListener{
-	private String name;
-	private int price;
-	private CoinCounter coinCounter;
-	private ConfirmWindow confirmWindow;
 	ImageIcon buttonLight = new ImageIcon("./img/stationIcon.gif");
+	private String name;
 	private String route;
-	StationButton(String name, int price, int x, int y, CoinCounter coinCounter, String route) {
+	private int    price;
+	private boolean isRoundTripFlag = false;
+	//private int posX,posY;
+
+	private DispAmount    dspCharge;
+	private CoinCounter   coinCounter;
+	private VendingMachine vm;
+	private VendGui gui;
+	public static class Builder{
+		private int cnt=0;
+		private String name;
+		private String route;
+		private int    price;
+		private int    posX,posY;
+
+		private DispAmount     dspCharge;
+		private CoinCounter    coinCounter;
+		private VendingMachine vm;
+		private VendGui        gui;
+		public Builder(DispAmount dspCharge, CoinCounter coinCounter, VendingMachine vm, VendGui gui){
+			this.dspCharge = dspCharge;
+			this.coinCounter = coinCounter;
+			this.vm = vm;
+			this.gui = gui;
+		}
+		public Builder name(String name){
+			this.name = name;
+			return this;
+		}
+		public Builder route(String route){
+			this.route = route;
+			cnt++;
+			return this;
+		}
+		public Builder price(int price){
+			this.price = price;
+			cnt++;
+			return this;
+		}
+		public Builder posX(int posX){
+			this.posX = posX;
+			cnt++;
+			return this;
+		}
+		public Builder posY(int posY){
+			this.posY = posY;
+			cnt++;
+			return this;
+		}
+		public StationButton build(){
+			if(cnt<4) throw new IllegalStateException("Error. Argument is not enough.");{
+			return new StationButton(this);
+			}
+		}
+	}
+	StationButton(Builder builder){
 		this.setEnabled(false);
-		this.name = name;
-		this.price = price;
-		this.coinCounter = coinCounter;
-		this.route = route;
-		this.setBounds(x, y, 30, 30);
+		name = builder.name;
+		price = builder.price;
+		route = builder.route;
+		coinCounter = builder.coinCounter;
+		dspCharge = builder.dspCharge;
+		vm = builder.vm;
+		gui = builder.gui;
+		this.setBounds(builder.posX, builder.posY, 30, 30);
 		this.setIcon(buttonLight);
 	}
-
-	public void setButtonState() {
-		if ((this.price <= coinCounter.getAmount()) && (this.isEnabled() == false)) {
+	public void setButtonState(){
+		if ((price <= coinCounter.getAmount()) && (this.isEnabled() == false)){
 			this.setEnabled(true);
 			addMouseListener(this);
-		} else if((this.price >= coinCounter.getAmount()) && (this.isEnabled() == true)){
+		} else if ((price >= coinCounter.getAmount()) && (this.isEnabled() == true)){
 			this.setEnabled(false);
 			removeMouseListener(this);
 		}
 	}
-
-	public void setDoublePrice(boolean isRoundTrip) {
-		if (isRoundTrip) {
-			this.price *= 2;
-		} else {
-			this.price /= 2;
+/*	public void setDoublePrice(boolean isRoundTrip){
+		if (isRoundTrip){
+			price *= 2;
+		} else{
+			price /= 2;
 		}
+	}*/
+	public void setRoundTrip(boolean isRoundTripFlag){
+		this.isRoundTripFlag = isRoundTripFlag;
 	}
-
-	public String getName() {
+	public String getName(){
 		return name;
 	}
-
-	public int getPrice() {
+	public int getPrice(){
 		return price;
 	}
+	public String getRoute(){
+		return route;
+	}
+	public boolean isRoundTrip(){
+		return isRoundTripFlag;
+	}
 	public void mouseClicked(MouseEvent e){
-		try{
-		confirmWindow = new ConfirmWindow(name, "time", price, route);
-		System.out.println("create ConfirmWindow.");
-		confirmWindow.setVisible(true);
-		}catch(Exception e1){
-			System.out.println("Error in mouseClicked().");
-		}
-	}
-	public void mouseEntered(MouseEvent e) {
+			ConfirmWindow confirmWindow = new ConfirmWindow(this, dspCharge, coinCounter, vm, gui);
+			confirmWindow.setVisible(true);
 	}
 
-	public void mousePressed(MouseEvent e) {
+	public void mouseEntered(MouseEvent e){
 	}
 
-	public void mouseReleased(MouseEvent e) {
+	public void mousePressed(MouseEvent e){
 	}
 
-	public void mouseExited(MouseEvent e) {
+	public void mouseReleased(MouseEvent e){
 	}
 
-	
+	public void mouseExited(MouseEvent e){
+	}
 
 }

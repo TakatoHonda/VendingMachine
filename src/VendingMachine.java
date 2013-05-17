@@ -24,8 +24,6 @@ class VendingMachine {
 
 	public void ioC50() {
 		try {
-			P0.writeBytes("0");
-			P0.seek(0);
 			P0.writeBytes("1");
 			P0.seek(0);
 			P1.writeBytes("0");
@@ -74,11 +72,7 @@ class VendingMachine {
 		try {
 			P0.writeBytes("1");
 			P0.seek(0);
-			P0.writeBytes("0");
-			P0.seek(0);
 			P1.writeBytes("1");
-			P1.seek(0);
-			P1.writeBytes("0");
 			P1.seek(0);
 			P2.writeBytes("0");
 			P2.seek(0);
@@ -92,13 +86,9 @@ class VendingMachine {
 		try {
 			P0.writeBytes("1");
 			P0.seek(0);
-			P0.writeBytes("0");
-			P0.seek(0);
 			P1.writeBytes("0");
 			P1.seek(0);
 			P2.writeBytes("1");
-			P2.seek(0);
-			P2.writeBytes("0");
 			P2.seek(0);
 			System.out.println("Send request 200ticket");
 		} catch (Exception e) {
@@ -112,11 +102,7 @@ class VendingMachine {
 			P0.seek(0);
 			P1.writeBytes("1");
 			P1.seek(0);
-			P1.writeBytes("0");
-			P1.seek(0);
 			P2.writeBytes("1");
-			P2.seek(0);
-			P2.writeBytes("0");
 			P2.seek(0);
 			System.out.println("Send request 450ticket");
 		} catch (Exception e) {
@@ -127,8 +113,6 @@ class VendingMachine {
 	public void ioTWICE() {
 		try {
 			TWICE.writeBytes("1");
-			TWICE.seek(0);
-			TWICE.writeBytes("0");
 			TWICE.seek(0);
 			System.out.println("Send signal for roundtrip");
 		} catch (Exception e) {
@@ -183,7 +167,7 @@ class VendingMachine {
 			System.out.println("error in ioSTB()");
 		}
 	}
-
+/////////////////////////////////////////////////////////////
 	public boolean ioR50() {
 		boolean r50 = false;
 		try {

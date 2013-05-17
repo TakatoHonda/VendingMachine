@@ -17,6 +17,7 @@ public class CoinCounter {
 			if(coin == 500){coin500++;}
 		}else{coinMaxFlag = true;}
 		
+		
 	}
 	public int getAmount(){
 		int amount = (coin50-5)*50 + (coin100-5)*100 + (coin500-5)*500;

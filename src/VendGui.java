@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-class VendGui extends JFrame {
+class VendGui extends JFrame{
 	private ImageIcon coin50Icon = new ImageIcon("./img/coin50.png");
 	private ImageIcon coin100Icon = new ImageIcon("./img/coin100.png");
 	private ImageIcon coin500Icon = new ImageIcon("./img/coin500.png");
@@ -19,14 +19,22 @@ class VendGui extends JFrame {
 	private DispAmount dspCharge;
 	static CoinCounter coinCounter = new CoinCounter();
 	static VendingMachine vm = new VendingMachine();
-
-	public static void main(String args[]) {
+	private VendGui gui = this;
+	private StationButton yatuButton;
+	private StationButton tamaButton;
+	private StationButton araoButton;
+	private StationButton homeButton;
+	private StationButton kawaButton;
+	private StationButton heisButton;
+	private StationButton kamiButton;
+	private StationButton tatuButton;
+	public static void main(String args[]){
 		VendGui gui = new VendGui("Ticket");
 		gui.setVisible(true);
 		vm.ioRET();
 	}
 
-	VendGui(String title) {
+	VendGui(String title){
 		// Set frame property
 		setTitle(title);
 		setSize(480, 250);
@@ -35,16 +43,30 @@ class VendGui extends JFrame {
 		// No use layout manager
 		this.setLayout(null);
 
+		// Display for coin
+		dspInput = new DispAmount(340, 180, vm,gui);
+		dspCharge = new DispAmount(340, 205, vm,gui);
+		add(dspInput);
+		add(dspCharge);
+
 		// Set Station buttons
-		StationButton tatuButton = new StationButton("Tatsutaguchi", 450, 350, 20, coinCounter, "Houhi");
-		StationButton heisButton = new StationButton("Heisei", 150, 280, 70, coinCounter, "Houhi");
-		StationButton kamiButton = new StationButton("Kamikumamoto", 150, 150, 60, coinCounter, "Kago_up");
-		StationButton homeButton = new StationButton("Yourplace.", 0, 210, 110, coinCounter, "");
-		StationButton yatuButton = new StationButton("Yatsushiro", 450, 100, 190, coinCounter, "Kago_down");
-		StationButton kawaButton = new StationButton("Kawashiri", 150, 160, 160, coinCounter, "Kago_down");
-		StationButton tamaButton = new StationButton("Tamana", 200, 80, 60, coinCounter, "Kago_up");
-		StationButton araoButton = new StationButton("Arao", 450, 20, 20, coinCounter, "Kago_up");
-		StationButton stations[] = { tatuButton, heisButton, kamiButton, yatuButton, kawaButton, tamaButton, araoButton };
+		tatuButton = new StationButton.Builder(dspCharge, coinCounter, vm, gui)
+						.name("Tatsutaguchi").price(450).route("Houhi").posX(350).posY(20).build();
+		heisButton = new StationButton.Builder(dspCharge, coinCounter, vm, gui)
+						.name("Heisei").price(150).route("Houhi").posX(280).posY(70).build();
+		kamiButton = new StationButton.Builder(dspCharge, coinCounter, vm, gui)
+						.name("Kamikumamoto").price(150).route("Kago_up").posX(150).posY(60).build();
+		homeButton = new StationButton.Builder(dspCharge, coinCounter, vm, gui)
+						.name("Your place").price(0).route("").posX(210).posY(110).build();
+		yatuButton = new StationButton.Builder(dspCharge, coinCounter, vm, gui)
+						.name("Yatsushiro").price(450).route("Kago_down").posX(100).posY(190).build();
+		kawaButton = new StationButton.Builder(dspCharge, coinCounter, vm, gui)
+						.name("Kawashiri").price(150).route("Kago_down").posX(160).posY(160).build();
+		tamaButton = new StationButton.Builder(dspCharge, coinCounter, vm, gui)
+						.name("Tamana").price(200).route("Kago_up").posX(80).posY(60).build();
+		araoButton = new StationButton.Builder(dspCharge, coinCounter, vm, gui)
+						.name("Arao").price(450).route("Kago_up").posX(20).posY(20).build();
+		StationButton station[] = { tatuButton, heisButton, kamiButton, yatuButton, kawaButton, tamaButton, araoButton };
 		add(tatuButton);
 		add(heisButton);
 		add(kamiButton);
@@ -54,16 +76,10 @@ class VendGui extends JFrame {
 		add(tamaButton);
 		add(araoButton);
 
-		// Display for coin
-		dspInput = new DispAmount(340, 180);
-		dspCharge = new DispAmount(340, 205);
-		add(dspInput);
-		add(dspCharge);
-
 		// Set Coin buttons
-		CoinButton coin50Button = new CoinButton(50, 430, 5, coin50Icon, coinCounter, stations, dspInput, vm);
-		CoinButton coin100Button = new CoinButton(100, 430, 45, coin100Icon, coinCounter, stations, dspInput, vm);
-		CoinButton coin500Button = new CoinButton(500, 430, 85, coin500Icon, coinCounter, stations, dspInput, vm);
+		CoinButton coin50Button = new CoinButton(50, 430, 5, coin50Icon, coinCounter, station, dspInput, vm);
+		CoinButton coin100Button = new CoinButton(100, 430, 45, coin100Icon, coinCounter, station, dspInput, vm);
+		CoinButton coin500Button = new CoinButton(500, 430, 85, coin500Icon, coinCounter, station, dspInput, vm);
 		add(coin50Button);
 		add(coin100Button);
 		add(coin500Button);
@@ -87,7 +103,8 @@ class VendGui extends JFrame {
 		StationLabel kawaLabel = new StationLabel("Kawashiri", 194, 179, 150);
 		StationLabel tamaLabel = new StationLabel("Tamana", 70, 90, 200);
 		StationLabel araoLabel = new StationLabel("Arao", 50, 10, 450);
-		StationLabel[] stLabel = { tatuLabel, heisLabel, kamiLabel, homeLabel, yatuLabel, kawaLabel, tamaLabel, araoLabel };
+		StationLabel[] stLabel = { tatuLabel, heisLabel, kamiLabel, homeLabel, yatuLabel, kawaLabel, tamaLabel,
+				araoLabel };
 		add(tatuLabel);
 		add(heisLabel);
 		add(kamiLabel);
@@ -98,7 +115,7 @@ class VendGui extends JFrame {
 		add(araoLabel);
 
 		// A round trip button
-		RoundTripButton rtpButton = new RoundTripButton(stLabel, stations);
+		RoundTripButton rtpButton = new RoundTripButton(stLabel, station);
 		add(rtpButton);
 
 		// NoCionLihgt labels
@@ -108,13 +125,13 @@ class VendGui extends JFrame {
 		add(No100Label);
 
 		// Two no coin Lights
-		NoCoinLight no50Light = new NoCoinLight(410, 160, coinCounter, 50);
-		NoCoinLight no100Light = new NoCoinLight(410, 140, coinCounter, 100);
+		NoCoinLight no50Light = new NoCoinLight(410, 160, coinCounter, 50, vm);
+		NoCoinLight no100Light = new NoCoinLight(410, 140, coinCounter, 100, vm);
 		add(no50Light);
 		add(no100Light);
 
 		// Return coin button
-		RetButton retButton = new RetButton(coinCounter, dspInput, no50Light, no100Light, stations, vm);
+		RetButton retButton = new RetButton(coinCounter, dspInput, no50Light, no100Light, station, vm);
 		add(retButton);
 
 		// Set background
@@ -133,7 +150,7 @@ class VendGui extends JFrame {
 	}
 
 	// Draw lines between stations
-	public void paint(Graphics g) {
+	public void paint(Graphics g){
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		Stroke stroke = new BasicStroke(2.0f);// width = 3
@@ -149,5 +166,8 @@ class VendGui extends JFrame {
 		g2d.drawLine(312, 110, 349, 60);
 
 	}
-
+public void finished(){
+	dspInput.clear();
+	
+}
 }

@@ -1,5 +1,7 @@
 import javax.swing.JTextField;
 
+import machineTest.VendingMachine;
+
 @SuppressWarnings("serial")
 public class DispAmount extends JTextField {
 	private int dspValue;

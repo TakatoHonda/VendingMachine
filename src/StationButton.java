@@ -1,5 +1,7 @@
 
 
+
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
@@ -11,71 +13,13 @@ public class StationButton extends JButton implements MouseListener{
 	private String name;
 	private String route;
 	private int    price;
-	private boolean isRoundTripFlag = false;
-	//private int posX,posY;
-
-	private DispAmount    dspCharge;
-	private TransitionState   transitionState;
-	private VendingMachine vm;
-	private VendGui gui;
-	
-	public static class Builder{
-		private int cnt=0;
-		private String name;
-		private String route;
-		private int    price;
-		private int    posX,posY;
-
-		private DispAmount     dspCharge;
-		private TransitionState    transitionState;
-		private VendingMachine vm;
-		private VendGui        gui;
-		public Builder(DispAmount dspCharge, TransitionState transitionState, VendingMachine vm, VendGui gui){
-			this.dspCharge = dspCharge;
-			this.transitionState = transitionState;
-			this.vm = vm;
-			this.gui = gui;
-		}
-		public Builder name(String name){
-			this.name = name;
-			return this;
-		}
-		public Builder route(String route){
-			this.route = route;
-			cnt++;
-			return this;
-		}
-		public Builder price(int price){
-			this.price = price;
-			cnt++;
-			return this;
-		}
-		public Builder posX(int posX){
-			this.posX = posX;
-			cnt++;
-			return this;
-		}
-		public Builder posY(int posY){
-			this.posY = posY;
-			cnt++;
-			return this;
-		}
-		public StationButton build(){
-			if(cnt<4) throw new IllegalStateException("Error. Argument is not enough.");{
-			return new StationButton(this);
-			}
-		}
-	}
-	StationButton(Builder builder){
+	private ConfirmWindow confirmWindow;
+	public StationButton(String name, int price, String route, int x, int y){
 		this.setEnabled(false);
-		name = builder.name;
-		price = builder.price;
-		route = builder.route;
-		transitionState = builder.transitionState;
-		dspCharge = builder.dspCharge;
-		vm = builder.vm;
-		gui = builder.gui;
-		this.setBounds(builder.posX, builder.posY, 30, 30);
+		this.name = name;
+		this.price = price;
+		this.route = route;
+		this.setBounds(x, y, 30, 30);
 		this.setIcon(buttonLight);
 	}
 	public void setButtonState(int amount){
@@ -94,8 +38,8 @@ public class StationButton extends JButton implements MouseListener{
 			price /= 2;
 		}
 	}
-	public void setRoundTrip(boolean isRoundTripFlag){
-		this.isRoundTripFlag = isRoundTripFlag;
+	public void setConfirmWindow(ConfirmWindow confirmWindow){
+		this.confirmWindow = confirmWindow;
 	}
 	public String getName(){
 		return name;
@@ -106,12 +50,8 @@ public class StationButton extends JButton implements MouseListener{
 	public String getRoute(){
 		return route;
 	}
-	public boolean isRoundTrip(){
-		return isRoundTripFlag;
-	}
 	public void mouseClicked(MouseEvent e){
-			ConfirmWindow confirmWindow = new ConfirmWindow(this, dspCharge, transitionState, vm, gui);
-			confirmWindow.setVisible(true);
+			confirmWindow.setVisible(this);
 	}
 
 	public void mouseEntered(MouseEvent e){

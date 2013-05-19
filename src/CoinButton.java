@@ -1,19 +1,23 @@
 
 
 
+
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import machineTest.*;
+
 @SuppressWarnings("serial")
 public class CoinButton extends JButton implements MouseListener{
 	private int value;
-	private TransitionState transitionState;
+	private TransitionStateManager tsManager;
 	private VendingMachine vm;
 	
-	public CoinButton(int value, ImageIcon icon, int x, int y, TransitionState transitionState, VendingMachine vm){
-		this.transitionState = transitionState;
+	public CoinButton(int value, ImageIcon icon, int x, int y, TransitionStateManager tsManager, VendingMachine vm){
+		this.tsManager = tsManager;
 		this.value = value;
 		this.vm = vm;
 		this.setBounds(x, y, 40, 40);
@@ -29,12 +33,13 @@ public class CoinButton extends JButton implements MouseListener{
 				if (vm.ioIOVR()){
 					s = "over 1000yen";
 				} else{
-					s = "over 10coins";
+					s = "over 100coins";
 				}
 				System.out.println("error: " + s);
 				vm.ioACK();
 				AlertWindow alertWindow = new AlertWindow(s);
 				alertWindow.setVisible(true);
+				tsManager.retOverCoins(value);
 			} else{
 				switch (value){
 				case 50:
@@ -54,7 +59,7 @@ public class CoinButton extends JButton implements MouseListener{
 		}catch(Exception e1){
 					System.out.println("Error in mouseClicked()");
 				}
-				transitionState.setCoin(value);
+				tsManager.setCoin(value);
 	}
 
 	public void mouseEntered(MouseEvent e){

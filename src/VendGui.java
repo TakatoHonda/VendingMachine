@@ -1,4 +1,5 @@
 import java.awt.BasicStroke;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,6 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import machineTest.VendingMachine;
+
+import button.*;
+
+
 @SuppressWarnings("serial")
 class VendGui extends JFrame{
 	private ImageIcon coin50Icon;
@@ -17,8 +23,7 @@ class VendGui extends JFrame{
 	private ImageIcon background;
 	private DispAmount dspInput;
 	private DispAmount dspCharge;
-	private TransitionState transitionState;
-	static VendingMachine vm;
+	private TransitionStateManager tsManager;
 	private VendGui gui;
 	private StationButton yatuButton;
 	private StationButton tamaButton;
@@ -48,40 +53,35 @@ class VendGui extends JFrame{
 	private JLabel no50Label;
 	private JLabel no100Label;
 	private RetButton retButton;
+	private ConfirmWindow confirmWindow;
+	//static VendingMachine vm = new VendingMachine();
+	static VendingMachine vm = new VendingMachine();
 	
 	public static void main(String args[]){
 		VendGui gui= new VendGui();
 		gui.setVisible(true);
-		vm.ioRST();
 	}
 
 	VendGui(){
-		initCompornents();
+		initComponents();
 		initGUI();
+		vm.ioRST();
 	}
 
-	public void initCompornents(){
+	public void initComponents(){
 		coin50Icon = new ImageIcon("./img/coin50.png");
 		coin100Icon = new ImageIcon("./img/coin100.png");
 		coin500Icon = new ImageIcon("./img/coin500.png");
 		background = new ImageIcon("./img/background.gif");
 		gui = this;
-		tatuButton= new StationButton.Builder(dspCharge, transitionState, vm, gui).name("Tatsutaguchi").price(450)
-				.route("Houhi").posX(350).posY(20).build();
-		heisButton= new StationButton.Builder(dspCharge, transitionState, vm, gui).name("Heisei").price(150).route("Houhi")
-				.posX(280).posY(70).build();
-		kamiButton= new StationButton.Builder(dspCharge, transitionState, vm, gui).name("Kamikumamoto").price(150)
-				.route("Kago_up").posX(150).posY(60).build();
-		homeButton= new StationButton.Builder(dspCharge, transitionState, vm, gui).name("Your place").price(0).route("")
-				.posX(210).posY(110).build();
-		yatuButton= new StationButton.Builder(dspCharge, transitionState, vm, gui).name("Yatsushiro").price(450)
-				.route("Kago_down").posX(100).posY(190).build();
-		kawaButton= new StationButton.Builder(dspCharge, transitionState, vm, gui).name("Kawashiri").price(150)
-				.route("Kago_down").posX(160).posY(160).build();
-		tamaButton= new StationButton.Builder(dspCharge, transitionState, vm, gui).name("Tamana").price(200)
-				.route("Kago_up").posX(80).posY(60).build();
-		araoButton= new StationButton.Builder(dspCharge, transitionState, vm, gui).name("Arao").price(450).route("Kago_up")
-				.posX(20).posY(20).build();
+		tatuButton= new StationButton("Tatsutaguchi",450,"Houhi",350,20);
+		heisButton= new StationButton("Heisei",150,"Houhi",280,70);
+		kamiButton= new StationButton("Kamikumamoto",150,"Kago_up",150,60);
+		homeButton= new StationButton("Your place",0,"",210,110);
+		yatuButton= new StationButton("Yatsushiro",450,"Kago_down",100,190);
+		kawaButton= new StationButton("Kawashiri",150,"Kago_down",160,160);
+		tamaButton= new StationButton("Tamana",200,"Kago_up",80,60);
+		araoButton= new StationButton("Arao",450,"Kago_up",20,20);
 		StationButton[] station = { tatuButton, heisButton, kamiButton, yatuButton, kawaButton, tamaButton, araoButton };
 		tatuLabel= new StationLabel("Tatsutaguchi", 340, 54, 450);
 		heisLabel= new StationLabel("Heisei", 310, 90, 150);
@@ -93,22 +93,25 @@ class VendGui extends JFrame{
 		araoLabel= new StationLabel("Arao", 50, 10, 450);
 		StationLabel[] stLabel= { tatuLabel, heisLabel, kamiLabel, homeLabel, yatuLabel, kawaLabel, tamaLabel,
 				araoLabel };
-		no50Light= new NoCoinLight(410, 160, transitionState, 50, vm);
-		no100Light= new NoCoinLight(410, 140, transitionState, 100, vm);
-		NoCoinLight[] noCoinLight = {no50Light, no100Light};
 		dspInput= new DispAmount(340, 180, vm);
-		transitionState = new TransitionState(dspInput, station);
-		roundTripButton= new RoundTripButton(stLabel, station, transitionState);
 		dspCharge= new DispAmount(340, 205, vm);
-		coin50Button= new CoinButton(50, coin50Icon, 430, 5, transitionState, vm);
-		coin100Button= new CoinButton(100, coin100Icon, 430, 45, transitionState, vm);
-		coin500Button= new CoinButton(500, coin500Icon, 430, 85, transitionState, vm);
+		tsManager = new TransitionStateManager(dspInput, dspCharge, station,stLabel);
+		confirmWindow = new ConfirmWindow(gui, vm, tsManager);
+		no50Light= new NoCoinLight(410, 160, tsManager, 50, vm);
+		no100Light= new NoCoinLight(410, 140, tsManager, 100, vm);
+		NoCoinLight[] noCoinLight = {no50Light, no100Light};
+		roundTripButton= new RoundTripButton(tsManager);
+		coin50Button= new CoinButton(50, coin50Icon, 430, 5, tsManager, vm);
+		coin100Button= new CoinButton(100, coin100Icon, 430, 45, tsManager, vm);
+		coin500Button= new CoinButton(500, coin500Icon, 430, 85, tsManager, vm);
 		resetButton= new ResetButton();
 		inputLabel= new JLabel("Amount");
 		chargeLabel= new JLabel("Charge");
 		no50Label= new JLabel("50");
 		no100Label= new JLabel("100");
-		retButton= new RetButton(transitionState, vm);
+		retButton= new RetButton(tsManager, vm);
+		for(int i=0;i<station.length;i++)
+			station[i].setConfirmWindow(confirmWindow);
 			}
 
 	public void initGUI(){

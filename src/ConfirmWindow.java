@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import machineTest.VendingMachine;
+
+
+
 
 @SuppressWarnings("serial")
 public class ConfirmWindow extends JFrame{
@@ -16,19 +21,22 @@ public class ConfirmWindow extends JFrame{
 	ImageIcon ConBKGD = new ImageIcon("./img/ConBKGD.jpg");
 
 	private ReadTimeTable timeTable = new ReadTimeTable();
+	private RoundTripButton roundTripButton;
+	private VendingMachine vm;
+	private JLabel stationNameLabel;
+	private JLabel priceLabel;
+	private JLabel leaveTimeLabel;
+	private JLabel tripLabel;
 	private ConfirmWindow confirmWindow = this;
-	private DispAmount dspCharge;
-
-	private JLabel Trip;
-
-	public static class Builder{
-	}
-
-	ConfirmWindow(final StationButton station, final DispAmount dspCharge, TransitionState transitionState,
-			final VendingMachine vm, final VendGui gui){
-		this.dspCharge = dspCharge;
-		// Set confirmWindow property
-		setTitle("Go to " + station.getName());
+	private VendGui gui;
+	private TransitionStateManager tsManager;
+	private JButton confirmButton;
+	private JButton cancelButton;
+	
+	ConfirmWindow(VendGui gui, final VendingMachine vm, TransitionStateManager tsManager){
+		this.gui = gui;
+		this.vm = vm;
+		this.tsManager = tsManager;
 		setSize(280, 150);
 		setLocation(100, 75);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -36,46 +44,69 @@ public class ConfirmWindow extends JFrame{
 		setResizable(false);
 		setUndecorated(true);
 		setLayout(null);
-		gui.setEnabled(false);
-
-		// stationNameLabel
-		JLabel stationNameLabel = new JLabel("Ticket to " + station.getName() + ".");
+		stationNameLabel = new JLabel();
 		stationNameLabel.setBounds(50, 10, 200, 10);
 		stationNameLabel.setForeground(Color.black);
 		add(stationNameLabel);
 
-		// priceLabel
-		JLabel priceLabel = new JLabel("The Price is " + station.getPrice() + ".");
+		priceLabel = new JLabel();
 		priceLabel.setBounds(70, 30, 150, 10);
 		priceLabel.setForeground(Color.black);
 		add(priceLabel);
 
-		// leaveTimeLabel
-		JLabel leaveTimeLabel = new JLabel("Next departure time: " + timeTable.getLeaveTime(station.getRoute()));
+		
+		leaveTimeLabel = new JLabel();
 		leaveTimeLabel.setBounds(50, 50, 200, 10);
 		leaveTimeLabel.setForeground(Color.black);
 		add(leaveTimeLabel);
-		// RoundTrip or Single-trip label
-		if (station.isRoundTrip()){
-			Trip = new JLabel("Round trip!");
-		} else{
-			Trip = new JLabel("Single trip!");
-		}
-		Trip.setBounds(100, 70, 200, 15);
-		add(Trip);
+		
+		tripLabel = new JLabel();
+		tripLabel.setBounds(100, 70, 200, 15);
+		add(tripLabel);
 
-		// confirmButton
-		JButton confirmButton = new JButton();
+		confirmButton = new JButton();
 		confirmButton.setBounds(90, 90, 30, 30);
 		confirmButton.setIcon(ConButIcon);
 		confirmButton.setContentAreaFilled(false);
 		confirmButton.setBorderPainted(false);
+		add(confirmButton);
+
+		
+		cancelButton = new JButton();
+		cancelButton.setBounds(170, 90, 30, 30);
+		cancelButton.setIcon(CancelButIcon);
+		cancelButton.setContentAreaFilled(false);
+		cancelButton.setBorderPainted(false);
+		add(cancelButton);
+		
+	}
+	public void setVisible(final StationButton station){
+	// Set confirmWindow property
+		setTitle("Go to " + station.getName());
+		setVisible(true);
+		
+		// stationNameLabel
+		stationNameLabel.setText("Ticket to " + station.getName() + ".");
+		
+		// priceLabel
+		priceLabel.setText("The Price is " + station.getPrice() + ".");
+		
+		// leaveTimeLabel
+		leaveTimeLabel.setText("Next departure time: " + timeTable.getLeaveTime(station.getRoute()));
+		// RoundTrip or Single-trip label
+		if (tsManager.isRoundTrip()){
+			tripLabel.setText("Round trip!");
+		} else{
+			tripLabel.setText("Single trip!");
+		}
+		
+		/////// confirmButton //////////
 		confirmButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				System.out.println("ConfirmButton was clicked.");
 
 				// IO out
-				try{
+				//try{
 					switch (station.getPrice()){
 					case 150:
 						vm.ioREQ150();
@@ -87,46 +118,44 @@ public class ConfirmWindow extends JFrame{
 						vm.ioREQ450();
 						break;
 					}
-					if (station.isRoundTrip()){
+					if (roundTripButton.isClicked()){
 						vm.ioTWICE();
 					}
 					vm.ioSTB();
 
 					// IO in//////////////////////
 					for (int i = 0; i < 2; i ++){
-						// gui.clear();
 						if (vm.ioSEL150()){
+							System.out.println("get ticket 150");
 						} else if (vm.ioSEL200()){
+							System.out.println("get ticket 200");
 						} else if (vm.ioSEL450()){
+							System.out.println("get ticket 450");
 						}
 						vm.ioACK();
-						if(station.isRoundTrip()){break;}
+						if(!roundTripButton.isClicked()){break;}
 					}
 					//////////////////////////////
-				} catch (Exception e1){
+			//	} catch (Exception e1){
 					System.out.println("Error in io connect.");
-				}
+				//}
 				confirmWindow.setVisible(false);
+				confirmButton.removeActionListener(this);
 				gui.setEnabled(true);
-				dspCharge.setCharge();
+				tsManager.setState();
+				tsManager.clear();
 			}
 		});
-		add(confirmButton);
-
+		
 		// cancelButton
-		JButton cancelButton = new JButton();
-		cancelButton.setBounds(170, 90, 30, 30);
-		cancelButton.setIcon(CancelButIcon);
-		cancelButton.setContentAreaFilled(false);
-		cancelButton.setBorderPainted(false);
 		cancelButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				System.out.println("CancelButton OK.");
 				confirmWindow.setVisible(false);
+				cancelButton.removeActionListener(this);
 				gui.setEnabled(true);
 			}
 		});
-		add(cancelButton);
 
 		// Set background
 		// ***************************************************************************************

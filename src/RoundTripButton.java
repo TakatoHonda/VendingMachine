@@ -1,6 +1,9 @@
 
+
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
 
 
 import java.awt.event.*;
@@ -10,16 +13,14 @@ public class RoundTripButton extends JButton implements MouseListener {
 	boolean isRoundTrip = false;
 	StationLabel[] stLabel;
 	StationButton[] station;
-	TransitionState transitionState;
+	TransitionStateManager tsManager;
 	ImageIcon offIcon = new ImageIcon("./img/roundTripIcon_off.png");
 	ImageIcon onIcon = new ImageIcon("./img/roundTripIcon_on.png");
 	int x = 430, y = 125;
 
-	RoundTripButton(StationLabel[] stLabel, StationButton[] station, TransitionState transitionState) {
+	RoundTripButton(TransitionStateManager tsManager) {
 		this.setBounds(x, y, 40, 50);
-		this.stLabel = stLabel;
-		this.station = station;
-		this.transitionState = transitionState;
+		this.tsManager = tsManager;
 		this.setIcon(offIcon);
 		addMouseListener(this);
 	}
@@ -36,13 +37,7 @@ public class RoundTripButton extends JButton implements MouseListener {
 			isRoundTrip = true;
 			this.setIcon(onIcon);
 		}
-		
-		for (int i = 0; i < station.length; i++) {
-			stLabel[i].setPrice(isRoundTrip);
-			station[i].setDoublePrice(isRoundTrip);
-			transitionState.setState();
-			if(i==station.length-1){stLabel[i+1].setPrice(isRoundTrip);}
-		}
+		tsManager.setRoundTrip(isRoundTrip);		
 	}
 
 	public void mouseEntered(MouseEvent e) {

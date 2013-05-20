@@ -30,10 +30,10 @@ public class CoinButton extends JButton implements MouseListener{
 		try{
 			if (vm.ioIOVR() || vm.ioSOVR()){
 				String s;
-				if (vm.ioIOVR()){
-					s = "over 1000yen";
+				if (vm.ioSOVR()){
+					s = "over 100 coins";
 				} else{
-					s = "over 100coins";
+					s = "over \1000";
 				}
 				System.out.println("error: " + s);
 				vm.ioACK();

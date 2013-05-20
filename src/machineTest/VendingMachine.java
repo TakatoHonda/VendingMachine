@@ -43,7 +43,7 @@ public class VendingMachine{
 				iovrFlag = true;
 			}
 		}
-		if(num>100){
+		if(num>10){
 			sovrFlag = true;
 		}
 		return (sovrFlag || iovrFlag);

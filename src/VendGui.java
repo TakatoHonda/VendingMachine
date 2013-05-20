@@ -1,3 +1,4 @@
+
 import java.awt.BasicStroke;
 
 import java.awt.Color;
@@ -10,10 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import machineTest.VendingMachine;
-
-import button.*;
-
+import machineTest.*;
 
 @SuppressWarnings("serial")
 class VendGui extends JFrame{

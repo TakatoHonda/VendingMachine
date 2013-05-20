@@ -44,9 +44,17 @@ public class TransitionStateManager{
 	public void setState(){
 		for(int i=0;i<station.length;i++){
 			station[i].setButtonState(getAmount());
-			dspInput.setAmount(getAmount());
-			dspCharge.setCharge();
-			
+			dspInput.setAmount(getAmount());	
+		}
+	}
+	public void retCoins(){
+		coin50=0;
+		coin100=0;
+		coin500=0;
+		dspCharge.setCharge();
+		dspInput.clear();
+		for(int i=0;i<station.length;i++){
+			station[i].clear();
 		}
 	}
 	public void setButtonState(StationButton station){
@@ -67,7 +75,6 @@ public class TransitionStateManager{
 	}
 	public void retOverCoins(int value){
 		dspCharge.setText(""+value);
-		dspInput.setText(Integer.toString(getAmount()-value));
 	}
 	public boolean isRoundTrip(){
 		return isRoundTrip;

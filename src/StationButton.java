@@ -50,6 +50,9 @@ public class StationButton extends JButton implements MouseListener{
 	public String getRoute(){
 		return route;
 	}
+	public void clear(){
+		setEnabled(false);
+	}
 	public void mouseClicked(MouseEvent e){
 			confirmWindow.setVisible(this);
 	}

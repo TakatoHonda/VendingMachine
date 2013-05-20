@@ -1,199 +1,247 @@
 package machineTest;
+
 import java.io.*;
+
 public class VendingMachine{
-	private static int c50 = 0;
-	private static int c100 = 0;
-	private static int c500 = 0;
-	private static int coinAmount = 0;
-	private static boolean retFlag = false;
-	private static boolean iovrFlag = false;
-	private static boolean sovrFlag = false;
-	private static boolean r50Flag = false;
-	private static boolean r100Flag = false;
-	private static boolean r500Flag = false;
-	private static boolean req150Flag = false;
-	private static boolean req200Flag = false;
-	private static boolean req450Flag = false;
-	private static boolean twiceFlag = false;
-	private static boolean sel150Flag = false;
-	private static boolean sel200Flag = false;
-	private static boolean sel450Flag = false;
-	private static boolean[] selFlag = {sel150Flag,sel200Flag,sel450Flag};
-	private static boolean no50Flag = false;
-	private static boolean no100Flag = false;
-	private static int chargeCoin50 = 0;
-	private static int chargeCoin100 = 0;
-	private static int chargeCoin500 = 0;
-	
+	public static int c50= 0;
+	public static int c100= 0;
+	public static int c500= 0;
+	public static int coinAmount= 0;
+	public static boolean retFlag= false;
+	public static boolean iovrFlag= false;
+	public static boolean sovrFlag= false;
+	public static boolean r50Flag= false;
+	public static boolean r100Flag= false;
+	public static boolean r500Flag= false;
+	public static boolean req150Flag= false;
+	public static boolean req200Flag= false;
+	public static boolean req450Flag= false;
+	public static boolean twiceFlag= false;
+	public static boolean sel150Flag= false;
+	public static boolean sel200Flag= false;
+	public static boolean sel450Flag= false;
+	public static boolean[] selFlag= { sel150Flag, sel200Flag, sel450Flag };
+	public static boolean no50Flag= false;
+	public static boolean no100Flag= false;
+	public static int chargeCoin50= 0;
+	public static int chargeCoin100= 0;
+	public static int chargeCoin500= 0;
+
 	public VendingMachine(){
-	System.out.println("VendingMachine start.");
-	}	
-	/////////////////////////not io/////////////////////////
+		System.out.println("VendingMachine start.");
+	}
+
+	// ///////////////////////not io/////////////////////////
 	public boolean judgeError(String coin, int num){
-		if(coin.equals("c50")){
-			if((coinAmount + c50*num)>1000){
-			iovrFlag = true;
-			}	
-		}else if(coin.equals("c100")){
-			if((coinAmount + c100*num)>1000){
-				iovrFlag = true;
-			}
-		}else if(coin.equals("c500")){
-			if((coinAmount + c500*500)>1000){
-				iovrFlag = true;
-			}
+		//System.out.println("judgeError() start.");
+		if (coin.equals("c50")){
+			iovrFlag = (coinAmount+50)> 1000 ? true:false;
+		} else if (coin.equals("c100")){
+			iovrFlag = (coinAmount+100)> 1000 ? true:false;
+		} else if (coin.equals("c500")){
+			iovrFlag = (coinAmount+500)> 1000? true:false;
 		}
-		if(num>10){
-			sovrFlag = true;
-		}
+		sovrFlag = (num >= 10) ? true:false;
 		return (sovrFlag || iovrFlag);
 	}
+
 	public void setAmount(){
-		coinAmount = c50*50 + c100*100 + c500*500;
+		coinAmount= c50* 50+ c100* 100+ c500* 500;
 	}
-	public void setCharge(){
-		while(coinAmount!=0 && retFlag == true){
-			if(coinAmount - 500 >= 0 && c500 > 0){
-				coinAmount-=500;
+
+	public void setReturnCoins(){
+		while(coinAmount!=0){
+			if (coinAmount- 500>= 0&& c500> 0){
+				r500Flag=true;
 				c500--;
 				chargeCoin500++;
-			}else if(coinAmount -100 >= 0 && c100 > 0) {
-				coinAmount-=100;
+			} else if (coinAmount- 100>= 0&& c100> 0){
+				r500Flag=false;
+				r100Flag=true;
 				c100--;
 				chargeCoin100++;
-			}else if(coinAmount -50 >= 0 && c50 > 0){
-				coinAmount-=50;
+			} else if (coinAmount- 50>= 0&& c50> 0){
+				r100Flag = false;
+				r50Flag = true;
 				c50--;
 				chargeCoin50++;
+			}else {
+				r50Flag = false;
 			}
+			setAmount();
 		}
 	}
-	//////////////////////not io///////////////////////////////
-	
+
+//	boolean getFlags(String flagName){
+	//	if(flagName.equals("r50Flag"))return r50Flag;
+	//	if(flagName.equals("r100Flag"))return r100Flag;
+	//	if
+	//}
+	// ////////////////////not io///////////////////////////////
+
 	public void ioC50(){
-		if(!judgeError("c50",c50)){
+		if(!judgeError("c50", c50)){
 			c50++;
-			System.out.println("add coin50\nc50: "+ c50);
 			setAmount();
+			System.out.println("coin50 add:"+ c50);
+			System.out.println("coinAmount:"+ coinAmount);
+		}else{
+			System.out.println("Error: " +"sovrFlag="+sovrFlag+" iovrFlag="+iovrFlag);
 		}
-		
 	}
+
 	public void ioC100(){
-		if(!judgeError("c50",c50)){
+		if(!judgeError("c100", c100)){
 			c100++;
-			System.out.println("add coin100\nc100: " + c100);
 			setAmount();
-		}
+			System.out.println("coin100 add:"+ c100);
+			System.out.println("coinAmount:"+ coinAmount);
+		}else{
+			System.out.println("Error: " +"sovrFlag="+sovrFlag+" iovrFlag="+iovrFlag);
+		}	
 	}
+
 	public void ioC500(){
-		if(!judgeError("c500",c500)){
+		if(!judgeError("c500", c500)){
 			c500++;
-			System.out.println("add coin500\nc500: " + c500);
 			setAmount();
-		}
-		
+			System.out.println("coin500 add:"+ c500);
+			System.out.println("coinAmount:"+ coinAmount);
+		}else{
+			System.out.println("Error: " +"sovrFlag="+sovrFlag+" iovrFlag="+iovrFlag);
+		}	
 	}
+
 	public void ioREQ150(){
-		req150Flag = true;
+		req150Flag= true;
 	}
+
 	public void ioREQ200(){
-		req200Flag = true;
+		req200Flag= true;
 	}
+
 	public void ioREQ450(){
-		req450Flag = true;
+		req450Flag= true;
 	}
+
 	public void ioTWICE(){
-		twiceFlag = true;
+		twiceFlag= true;
 	}
+
 	public void ioRET(){
-		retFlag = true;
-		setCharge();
+		setReturnCoins();
 	}
-	public void ioRST(){}
+
+	public void ioRST(){
+	}
+
 	public void ioACK(){
-		if(twiceFlag==false){
-			for(int i=0;i<selFlag.length;i++){
-				selFlag[i] = false;
+		
+	/* (twiceFlag== false){
+			for (int i= 0; i< selFlag.length; i++){
+				selFlag[i]= false;
 			}
+		if(coinAmount>1000){
+			iovrFlag = true;
+		}else{
+			iovrFlag = false;
 		}
+		if(c50>10||c100>10||c500>10){
+			sovrFlag=true;
+		}else
+			sovrFlag= false;
+		}*/
 	}
-	public void ioSTB(){}
+
+	public void ioSTB(){
+	}
+
 	public boolean ioIOVR(){
 		return iovrFlag;
 	}
+
 	public boolean ioSOVR(){
 		return sovrFlag;
 	}
+
 	public boolean ioSEL150(){
-		if(coinAmount >= 150 && req150Flag==true){
-			sel150Flag = true;
-			coinAmount -= 150;
+		if (coinAmount>= 150&& req150Flag== true){
+			sel150Flag= true;
+			c50--;
+			c100--;
+			setAmount();
 		}
-		setCharge();
+		setReturnCoins();
 		return sel150Flag;
 	}
+
 	public boolean ioSEL200(){
-		if(coinAmount >= 200 && req200Flag==true){
-			sel200Flag = true;
-			coinAmount -= 200;
+		if (coinAmount>= 200&& req200Flag== true){
+			sel200Flag= true;
+			c100-=2;
+			setAmount();
 		}
-		setCharge();
+		setReturnCoins();
 		return sel200Flag;
 	}
+
 	public boolean ioSEL450(){
-		if(coinAmount >= 450 && req450Flag==true){
-			sel450Flag = true;
-			coinAmount -= 450;
+		if (coinAmount>= 450&& req450Flag== true){
+			sel450Flag= true;
+			c100-=4;
+			c50--;
 		}
-		setCharge();
+		setReturnCoins();
 		return sel450Flag;
 	}
-	
-	
+
 	public boolean ioR50(){
-	if(chargeCoin50 > 0){
-		r50Flag = true;
-		chargeCoin50--;
-	}else{
-		r50Flag = false;
-	}
-	return r50Flag;
-	}
-	public boolean ioR100(){
-		if(chargeCoin100 > 0){
-			r50Flag = true;
-			chargeCoin100--;
+		if(chargeCoin50>0){
+			chargeCoin50--;
+			r50Flag=true;
 		}else{
-			r100Flag = false;
+			r50Flag=false;
+		}
+		return r50Flag;
+	}
+
+	public boolean ioR100(){
+		setReturnCoins();
+		if (chargeCoin100> 0){
+			r100Flag= true;
+			chargeCoin100--;
+		} else{
+			r100Flag= false;
 		}
 		return r100Flag;
 	}
+
 	public boolean ioR500(){
-		if(chargeCoin500 > 0){
-			r50Flag = true;
+		setReturnCoins();
+		if (chargeCoin500> 0){
+			r500Flag= true;
 			chargeCoin500--;
-		}else{
-			r500Flag = false;
+		} else{
+			r500Flag= false;
 		}
 		return r500Flag;
 	}
+
 	public boolean ioNO50(){
-		if(c50==0){
-			no50Flag = true;
+		if (c50== 0){
+			no50Flag= true;
 		}
 		return no50Flag;
 	}
+
 	public boolean ioNO100(){
-		if(c100==0){
-			no100Flag = true;
+		if (c100== 0){
+			no100Flag= true;
 		}
 		return no100Flag;
 	}
-	
-	public void ioInit(){}
-	
-	
-	
-	
-	
+
+	public void ioInit(){
+	}
+
 }

@@ -28,9 +28,9 @@ public class RetButton extends JButton implements MouseListener {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		tsManager.clear();// Initial
 		vm.ioRET();
-	}
+		tsManager.retCoins();
+		}
 
 	public void mouseEntered(MouseEvent e) {
 	}

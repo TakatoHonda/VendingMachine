@@ -26,7 +26,7 @@ public class StationButton extends JButton implements MouseListener{
 		if ((price <= amount) && (this.isEnabled() == false)){
 			this.setEnabled(true);
 			addMouseListener(this);
-		} else if ((price >= amount) && (this.isEnabled() == true)){
+		} else if ((price > amount) && (this.isEnabled() == true)){
 			this.setEnabled(false);
 			removeMouseListener(this);
 		}

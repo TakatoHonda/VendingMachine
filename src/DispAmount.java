@@ -23,25 +23,26 @@ public class DispAmount extends JTextField {
 		this.setText(Integer.toString(dispValue));
 	}
 
-	public void setCharge() {
-		System.out.println("r50Flag:" + vm.r50Flag+" r100Flag:"+vm.r100Flag+" r500Flag:"+vm.r500Flag);
-		int i=15;
-		while (i>0) {
+	public void setCharge() {		
+		for(int i=0;i<=15;i++) {
+			System.out.println("charge set: i="+i);
 			if (vm.ioR50()) {
 				chargeCoin50++;
+				System.out.println("ret coin50");
 				vm.ioACK();
 			}
 			if (vm.ioR100()) {
 				chargeCoin100++;
+				System.out.println("ret coin100");
 				vm.ioACK();
 			}
 			if (vm.ioR500()) {
 				chargeCoin500++;
+				System.out.println("ret coin500");
 				vm.ioACK();
 			}
-			i--;
-		System.out.println("Charge coin is\n"+"50:"+chargeCoin50+" 100:"+chargeCoin100+" 500:"+chargeCoin500);	
 		}	
+		System.out.println("Charge coin is\n"+"50:"+chargeCoin50+" 100:"+chargeCoin100+" 500:"+chargeCoin500);	
 		this.setText(Integer.toString(chargeCoin50*50+chargeCoin100*100+chargeCoin500*500));
 		chargeCoin50=0;
 		chargeCoin100=0;

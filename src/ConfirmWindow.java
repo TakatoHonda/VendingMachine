@@ -19,9 +19,8 @@ public class ConfirmWindow extends JFrame{
 	ImageIcon ConButIcon = new ImageIcon("./img/confirm-button.png");
 	ImageIcon CancelButIcon = new ImageIcon("./img/cancel-button.png");
 	ImageIcon ConBKGD = new ImageIcon("./img/ConBKGD.jpg");
-
+	private int hoge = 0;
 	private ReadTimeTable timeTable = new ReadTimeTable();
-	private RoundTripButton roundTripButton;
 	private VendingMachine vm;
 	private JLabel stationNameLabel;
 	private JLabel priceLabel;
@@ -103,28 +102,42 @@ public class ConfirmWindow extends JFrame{
 		/////// confirmButton //////////
 		confirmButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				System.out.println("ConfirmButton was clicked.");
-
-				// IO out
-				//try{
 					switch (station.getPrice()){
+					case 300:
+						vm.ioREQ150();
+						System.out.println("Requesut ticket150.");
+						break;
 					case 150:
 						vm.ioREQ150();
+						System.out.println("Requesut ticket150.");
+						break;
+						
+					case 400:	
+						vm.ioREQ200();
+						System.out.println("Requesut ticket200.");
 						break;
 					case 200:
 						vm.ioREQ200();
+						System.out.println("Requesut ticket200.");
+						break;
+						
+					case 900:
+						vm.ioREQ450();
+						System.out.println("Requesut ticket450.");
 						break;
 					case 450:
 						vm.ioREQ450();
+						System.out.println("Requesut ticket450.");
 						break;
 					}
-					if (roundTripButton.isClicked()){
+					if (tsManager.isRoundTrip()){
 						vm.ioTWICE();
+						System.out.println("Request roundtrip ticket.");
 					}
 					vm.ioSTB();
 
 					// IO in//////////////////////
-					for (int i = 0; i < 2; i ++){
+					for (int i = 0; i < 2; i++){
 						if (vm.ioSEL150()){
 							System.out.println("get ticket 150");
 						} else if (vm.ioSEL200()){
@@ -133,17 +146,13 @@ public class ConfirmWindow extends JFrame{
 							System.out.println("get ticket 450");
 						}
 						vm.ioACK();
-						if(!roundTripButton.isClicked()){break;}
+						if(!tsManager.isRoundTrip()){break;}
 					}
-					//////////////////////////////
-			//	} catch (Exception e1){
-					System.out.println("Error in io connect.");
-				//}
 				confirmWindow.setVisible(false);
 				confirmButton.removeActionListener(this);
+				cancelButton.removeActionListener(this);
 				gui.setEnabled(true);
-				tsManager.setState();
-				tsManager.clear();
+				tsManager.retCoins();
 			}
 		});
 		
@@ -152,6 +161,7 @@ public class ConfirmWindow extends JFrame{
 			public void actionPerformed(ActionEvent e){
 				System.out.println("CancelButton OK.");
 				confirmWindow.setVisible(false);
+				confirmButton.removeActionListener(this);
 				cancelButton.removeActionListener(this);
 				gui.setEnabled(true);
 			}

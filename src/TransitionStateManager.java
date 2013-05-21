@@ -65,9 +65,9 @@ public class TransitionStateManager{
 		for(int i=0;i<station.length;i++){
 			stLabel[i].setPrice(isRoundTrip);
 			station[i].setDoublePrice(isRoundTrip);
+			station[i].setButtonState(getAmount());
 			if(i==station.length-1){stLabel[i+1].setPrice(isRoundTrip);}
 		}
-		setState();
 	}
 	public void setRoundTrip(boolean isRoundTrip){
 		this.isRoundTrip = isRoundTrip;

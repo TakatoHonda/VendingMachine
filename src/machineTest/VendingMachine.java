@@ -33,7 +33,7 @@ public class VendingMachine{
 		System.out.println("VendingMachine start.");
 	}
 
-	// ///////////////////////not io/////////////////////////
+	/////////////////////////not io/////////////////////////
 	public boolean judgeError(String coin, int num){
 		//System.out.println("judgeError() start.");
 		if (coin.equals("c50")){
@@ -56,19 +56,25 @@ public class VendingMachine{
 			if (coinAmount- 500>= 0&& innerCoin50> 0){
 				r500Flag=true;
 				c500--;
+				innerCoin500--;
 				chargeCoin500++;
 			} else if (coinAmount- 100>= 0&& innerCoin100> 0){
 				r500Flag=false;
 				r100Flag=true;
 				c100--;
+				innerCoin100--;
 				chargeCoin100++;
 			} else if (coinAmount- 50>= 0&& innerCoin500> 0){
 				r100Flag = false;
 				r50Flag = true;
 				c50--;
+				innerCoin50--;
 				chargeCoin50++;
 			}else {
 				r50Flag = false;
+				sel150Flag=false;
+				sel200Flag=false;
+				sel450Flag=false;
 			}
 			setAmount();
 		}
@@ -138,23 +144,7 @@ public class VendingMachine{
 	public void ioRST(){
 	}
 
-	public void ioACK(){
-		
-	/* (twiceFlag== false){
-			for (int i= 0; i< selFlag.length; i++){
-				selFlag[i]= false;
-			}
-		if(coinAmount>1000){
-			iovrFlag = true;
-		}else{
-			iovrFlag = false;
-		}
-		if(c50>10||c100>10||c500>10){
-			sovrFlag=true;
-		}else
-			sovrFlag= false;
-		}*/
-	}
+	public void ioACK(){}
 
 	public void ioSTB(){
 	}

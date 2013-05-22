@@ -14,21 +14,20 @@ public class TransitionStateManager{
 	private boolean isRoundTrip;
 	private InputCoinDisplay icDisplay;
 	private ChargeCoinDisplay ccDisplay;
+	private NoCoinLight[] noCoinLight;
 	private StationButton[] station;
 	private StationLabel[] stLabel;
-	private ConfirmWindow confirmWindow;
- 	public TransitionStateManager(InputCoinDisplay icDisplay, ChargeCoinDisplay ccDisplay, StationButton[] station, StationLabel[] stLabel){
-		coin50 = 0;
+
+	public TransitionStateManager(InputCoinDisplay icDisplay, ChargeCoinDisplay ccDisplay, StationButton[] station,
+			StationLabel[] stLabel, NoCoinLight[] noCoinLight){
+		coin50= 0;
 		coin100= 0;
 		coin500= 0;
-		this.station = station;
-		this.ccDisplay = ccDisplay;
-		this.icDisplay = icDisplay;
-		this.stLabel = stLabel;
+		this.station= station;
+		this.ccDisplay= ccDisplay;
+		this.icDisplay= icDisplay;
+		this.stLabel= stLabel;
 	}
- 	public void showConfirmWindow(StationButton station){
- 		confirmWindow.setVisible(station);
- 	}
 
 	public void setCoin(int coin){
 		switch (coin){
@@ -44,52 +43,60 @@ public class TransitionStateManager{
 		}
 		setState();
 	}
+
 	public int getAmount(){
-		int amount = (coin50)*50 + (coin100)*100 + (coin500)*500;
+		int amount= (coin50)* 50+ (coin100)* 100+ (coin500)* 500;
 		return amount;
 	}
+
 	public void setState(){
-		for(int i=0;i<station.length;i++){
+		for (int i= 0; i< station.length; i++){
 			station[i].setButtonState(getAmount());
-			icDisplay.setAmount(getAmount());	
+			icDisplay.setAmount(getAmount());
+
 		}
 	}
+
 	public void retCoins(){
-		coin50=0;
-		coin100=0;
-		coin500=0;
+		coin50= 0;
+		coin100= 0;
+		coin500= 0;
 		ccDisplay.setCharge();
 		icDisplay.clear();
-		for(int i=0;i<station.length;i++){
+		for (int i= 0; i< station.length; i++){
 			station[i].clear();
 		}
 	}
-	public void setButtonState(StationButton station){
-		
-	}
+
 	public void setTicketPrice(boolean isRoundTrip){
-		this.isRoundTrip = isRoundTrip;
-		for(int i=0;i<station.length;i++){
+		this.isRoundTrip= isRoundTrip;
+		for (int i= 0; i< station.length; i++){
 			stLabel[i].setPrice(isRoundTrip);
 			station[i].setDoublePrice(isRoundTrip);
 			station[i].setButtonState(getAmount());
-			if(i==station.length-1){stLabel[i+1].setPrice(isRoundTrip);}
+			if (i== station.length- 1){
+				stLabel[i+ 1].setPrice(isRoundTrip);
+			}
 		}
 	}
+
 	public void setRoundTrip(boolean isRoundTrip){
-		this.isRoundTrip = isRoundTrip;
+		this.isRoundTrip= isRoundTrip;
 		setTicketPrice(isRoundTrip);
 	}
+
 	public void retOverCoins(int value){
-		ccDisplay.setText(""+value);
+		ccDisplay.setText(""+ value);
 	}
+
 	public boolean isRoundTrip(){
 		return isRoundTrip;
 	}
+
 	public void clear(){
-		coin50 = 0;
+		coin50= 0;
 		coin100= 0;
 		coin500= 0;
 		setState();
-	}	
+	}
 }

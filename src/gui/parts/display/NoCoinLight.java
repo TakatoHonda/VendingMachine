@@ -9,15 +9,13 @@ import manager.TransitionStateManager;
 @SuppressWarnings("serial")
 public class NoCoinLight extends JLabel {
 
-	private TransitionStateManager tsManager;
 	private int coin;
 	private VendingMachine vm;
 
-	public NoCoinLight(int x, int y, TransitionStateManager tsManager, int coin, VendingMachine vm) {
+	public NoCoinLight(int coin, VendingMachine vm, int x, int y) {
 		this.setBounds(x, y, 55, 20);
 		this.setText("Åú"); // Use this mark to simulate the light
 		this.setForeground(Color.pink);
-		this.tsManager = tsManager;
 		this.coin = coin;
 		this.vm = vm;
 	}

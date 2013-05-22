@@ -17,6 +17,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -109,11 +112,11 @@ class VendGui extends JFrame{
 				araoLabel };
 		icDisplay= new InputCoinDisplay(vm);
 		ccDisplay= new ChargeCoinDisplay(vm);
-		tsManager = new TransitionStateManager(icDisplay, ccDisplay, station,stLabel);
-		confirmWindow = new ConfirmWindow(gui, vm, tsManager);
-		no50Light= new NoCoinLight(410, 160, tsManager, 50, vm);
-		no100Light= new NoCoinLight(410, 140, tsManager, 100, vm);
+		no50Light= new NoCoinLight(50, vm,410, 160);
+		no100Light= new NoCoinLight(100, vm,410, 140);
 		NoCoinLight[] noCoinLight = {no50Light, no100Light};
+		tsManager = new TransitionStateManager(icDisplay, ccDisplay, station,stLabel,noCoinLight);
+		confirmWindow = new ConfirmWindow(gui, vm, tsManager);
 		roundTripButton= new RoundTripButton(tsManager);
 		coin50Button= new CoinButton(50, coin50Icon, 430, 5, tsManager, vm);
 		coin100Button= new CoinButton(100, coin100Icon, 430, 45, tsManager, vm);
@@ -136,7 +139,9 @@ class VendGui extends JFrame{
 		setBackground(Color.white);
 		// No use layout manager
 		this.setLayout(null);
-
+		addWindowListener(windowListener);
+		
+		
 		// Display for coin
 		add(icDisplay);
 		add(ccDisplay);
@@ -206,7 +211,7 @@ class VendGui extends JFrame{
 		// ***************************************************************************************
 
 	}
-
+	
 	// Draw lines between stations
 	public void paint(Graphics g){
 		super.paint(g);
@@ -224,8 +229,14 @@ class VendGui extends JFrame{
 		g2d.drawLine(312, 110, 349, 60);
 
 	}
-
 	public void finished(){
 		icDisplay.clear();
 	}
+	WindowListener windowListener = new WindowAdapter() {
+        public void windowClosing(WindowEvent e) {
+            vm.ioClose();
+        }
+    };
+
+	
 }

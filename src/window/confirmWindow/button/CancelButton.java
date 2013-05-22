@@ -1,6 +1,6 @@
 package window.confirmWindow.button;
 
-import gui.VendGui;
+import gui.VendingMachineGUI;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,10 +12,10 @@ import window.confirmWindow.ConfirmWindow;
 
 @SuppressWarnings("serial")
 public class CancelButton extends JButton implements MouseListener{
-	private  VendGui gui;
+	private  VendingMachineGUI gui;
 	private  ConfirmWindow confirmWindow;
 	ImageIcon CancelButIcon = new ImageIcon("./img/cancel-button.png");
-	public CancelButton(VendGui gui, ConfirmWindow confirmWindow){
+	public CancelButton(VendingMachineGUI gui, ConfirmWindow confirmWindow){
 		this.gui = gui;
 		this.confirmWindow = confirmWindow;
 		setBounds(170, 90, 30, 30);

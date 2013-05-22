@@ -23,7 +23,7 @@ public class AlertWindow extends JFrame{
 		setAlwaysOnTop(true);
 		setResizable(false);
 		label = new JLabel("<html>"+errorName+"<br>"+"Return coins."+"</html>");
-		label.setBounds(200, 100, 100, 50);
+		label.setBounds(200, 100, 470, 250);
 		add(label);
 		timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -1,14 +1,18 @@
 package window.confirmWindow.button;
 
-import gui.VendGui;
+import gui.VendingMachineGUI;
 import gui.parts.button.StationButton;
 
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
+import panel.TicketPanel;
+import window.alertWindow.AlertWindow;
 import window.confirmWindow.ConfirmWindow;
 
 import machineTest.VendingMachine;
@@ -20,9 +24,9 @@ public class ConfirmButton extends JButton implements MouseListener{
 	private StationButton station;
 	private VendingMachine vm;
 	private TransitionStateManager tsManager;
-	private VendGui gui;
+	private VendingMachineGUI gui;
 	private ConfirmWindow confirmWindow;
-	public ConfirmButton(VendingMachine vm, TransitionStateManager tsManager, VendGui gui, ConfirmWindow confirmWindow){
+	public ConfirmButton(VendingMachine vm, TransitionStateManager tsManager, VendingMachineGUI gui, ConfirmWindow confirmWindow){
 		this.vm = vm;
 		this.tsManager = tsManager;
 		this.gui = gui;
@@ -75,14 +79,19 @@ public class ConfirmButton extends JButton implements MouseListener{
 		for (int i = 0; i < 2; i++){
 			if (vm.ioSEL150()){
 				System.out.println("get ticket 150");
+				TicketPanel ticketFrame = new TicketPanel("ticket 150");
 			} else if (vm.ioSEL200()){
 				System.out.println("get ticket 200");
 			} else if (vm.ioSEL450()){
 				System.out.println("get ticket 450");
+			}else{
+				AlertWindow alertWindow = new AlertWindow("Cannot sell for cannot return the charge.");
+				alertWindow.setVisible(true);
 			}
 			vm.ioACK();
 			if(!tsManager.isRoundTrip()){break;}
 		}
+		tsManager.changeNoCoinLight();
 	confirmWindow.setVisible(false);
 	gui.setEnabled(true);
 	tsManager.retCoins();

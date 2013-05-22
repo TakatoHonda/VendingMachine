@@ -27,6 +27,7 @@ public class TransitionStateManager{
 		this.ccDisplay= ccDisplay;
 		this.icDisplay= icDisplay;
 		this.stLabel= stLabel;
+		this.noCoinLight = noCoinLight;
 	}
 
 	public void setCoin(int coin){
@@ -92,7 +93,12 @@ public class TransitionStateManager{
 	public boolean isRoundTrip(){
 		return isRoundTrip;
 	}
-
+	public void changeNoCoinLight(){
+		for(int i = 0;i<2;i++){
+			noCoinLight[i].changeColor();
+		}
+	}
+	
 	public void clear(){
 		coin50= 0;
 		coin100= 0;

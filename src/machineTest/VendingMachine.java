@@ -14,18 +14,13 @@ public class VendingMachine{
 	public static int coinAmount= 0;
 	public static boolean iovrFlag= false;
 	public static boolean sovrFlag= false;
-	public static boolean r50Flag= false;
-	public static boolean r100Flag= false;
-	public static boolean r500Flag= false;
 	public static boolean req150Flag= false;
 	public static boolean req200Flag= false;
 	public static boolean req450Flag= false;
-	public static boolean twiceFlag= false;
 	public static boolean sel150Flag= false;
 	public static boolean sel200Flag= false;
 	public static boolean sel450Flag= false;
-	public static boolean no50Flag= false;
-	public static boolean no100Flag= false;
+	public static boolean twiceFlag= false;
 	public static int chargeCoin50= 0;
 	public static int chargeCoin100= 0;
 	public static int chargeCoin500= 0;
@@ -36,8 +31,8 @@ public class VendingMachine{
 	}
 
 	// ///////////////////////not IO/////////////////////////
-	public boolean judgeError(String coin, int num){
-		// System.out.println("judgeError() start.");
+	public boolean isError(String coin, int num){
+		// System.out.println("isError() start.");
 		if (coin.equals("c50")){
 			iovrFlag= (coinAmount+ 50)> 1000 ? true:false;
 		} else if (coin.equals("c100")){
@@ -55,8 +50,7 @@ public class VendingMachine{
 
 	public void setReturnCoins(){
 		while (!(coinAmount== 0)){
-			System.out.println("coinAmount:"+ coinAmount+ " chargeAmount:"+ chargeAmount);
-			if (coinAmount- 500>= 0&& innerCoin500> 0){
+			if (coinAmount- 500>= 0){
 				innerCoin500--;
 				chargeCoin500++;
 				coinAmount-= 500;
@@ -68,16 +62,32 @@ public class VendingMachine{
 				innerCoin50--;
 				chargeCoin50++;
 				coinAmount-= 50;
-			}else{
+			} else{
 				System.err.println("Error noCoin");
+				setChargeAmount();
+				coinAmount= chargeAmount;
+				innerCoin50+= chargeCoin50;
+				innerCoin100+= chargeCoin100;
+				innerCoin500+= chargeCoin500;
+				chargeCoin50= 0;
+				chargeCoin100= 0;
+				chargeCoin500= 0;
+				req150Flag= false;
+				req200Flag= false;
+				req450Flag= false;
+				sel150Flag= false;
+				sel200Flag= false;
+				sel450Flag= false;
+				setAmount();
+				setReturnCoins();
 				break;
 			}
 			setChargeAmount();
 		}
 		if (coinAmount== 0){
-			sel150Flag= false;
-			sel200Flag= false;
-			sel450Flag= false;
+			req150Flag= false;
+			req200Flag= false;
+			req450Flag= false;
 			c50= 0;
 			c100= 0;
 			c500= 0;
@@ -89,10 +99,10 @@ public class VendingMachine{
 		chargeAmount= chargeCoin50* 50+ chargeCoin100* 100+ chargeCoin500* 500;
 	}
 
-	////////////////////////notIO//////////////////////////////////
+	// //////////////////////notIO//////////////////////////////////
 
 	public void ioC50(){
-		if (!judgeError("c50", innerCoin50)){
+		if (!isError("c50", innerCoin50)){
 			c50++;
 			innerCoin50++;
 			setAmount();
@@ -105,7 +115,7 @@ public class VendingMachine{
 	}
 
 	public void ioC100(){
-		if (!judgeError("c100", innerCoin100)){
+		if (!isError("c100", innerCoin100)){
 			c100++;
 			innerCoin100++;
 			setAmount();
@@ -118,7 +128,7 @@ public class VendingMachine{
 	}
 
 	public void ioC500(){
-		if (!judgeError("c500", innerCoin500)){
+		if (!isError("c500", innerCoin500)){
 			c500++;
 			innerCoin500++;
 			setAmount();
@@ -168,100 +178,76 @@ public class VendingMachine{
 	}
 
 	public boolean ioSEL150(){
-		if (coinAmount>= 150&& req150Flag== true){
-			sel150Flag= true;
-			innerCoin50--;
-			innerCoin100--;
+		sel150Flag=true;
+		if (req150Flag== true&& coinAmount>= 150){
 			coinAmount-= 150;
-			System.out.println("io sel150 coinAmount:"+ coinAmount);
 			if (!twiceFlag) setReturnCoins();
+			return sel150Flag;
 		} else if (coinAmount< 150){
-			sel150Flag= false;
-			twiceFlag= false;
 			setReturnCoins();
 		}
-		return sel150Flag;
+		return false;
 	}
 
 	public boolean ioSEL200(){
+		sel200Flag=true;
 		if (coinAmount>= 200&& req200Flag== true){
-			sel200Flag= true;
-			innerCoin100-= 2;
 			coinAmount-= 200;
-			System.out.println("io sel200 coinAmount:"+ coinAmount);
+			if (!twiceFlag) setReturnCoins();
+			return sel200Flag;
 		} else if (coinAmount< 200){
-			sel200Flag= false;
-			twiceFlag= false;
 			setReturnCoins();
 		}
-		return sel200Flag;
+		return false;
 	}
 
 	public boolean ioSEL450(){
+		sel450Flag=true;
 		if (coinAmount>= 450&& req450Flag== true){
-			sel450Flag= true;
-			innerCoin100-= 4;
-			innerCoin50--;
 			coinAmount-= 450;
-			System.out.println("io sel450 coinAmount:"+ coinAmount);
-			if (!twiceFlag){
-			}
+			if (!twiceFlag) setReturnCoins();
+			return sel450Flag;
 		} else if (coinAmount< 450){
-			sel450Flag= false;
-			twiceFlag= false;			
 			setReturnCoins();
 		}
-		return sel450Flag;
+		return false;
 	}
 
 	public boolean ioR50(){
+		setReturnCoins();
 		if (chargeCoin50> 0){
 			chargeCoin50--;
-			r50Flag= true;
-		} else{
-			r50Flag= false;
+			return true;
 		}
-		return r50Flag;
+		return false;
 	}
 
 	public boolean ioR100(){
 		setReturnCoins();
 		if (chargeCoin100> 0){
-			r100Flag= true;
 			chargeCoin100--;
-		} else{
-			r100Flag= false;
+			return true;
 		}
-		return r100Flag;
+		return false;
 	}
 
 	public boolean ioR500(){
 		setReturnCoins();
 		if (chargeCoin500> 0){
-			r500Flag= true;
 			chargeCoin500--;
-		} else{
-			r500Flag= false;
+			return true;
 		}
-		return r500Flag;
+		return false;
 	}
 
 	public boolean ioNO50(){
-		if (innerCoin50== 0){
-			no50Flag= true;
-		} else{
-			no50Flag= false;
-		}
-		return no50Flag;
+		if (innerCoin50== 0){ return true; }
+		return false;
 	}
 
 	public boolean ioNO100(){
-		if (innerCoin100== 0){
-			no100Flag= true;
-		} else{
-			no100Flag= false;
-		}
-		return no100Flag;
+		if (innerCoin100== 0){ return true; }
+		return false;
 	}
 
 	public void ioInit(){

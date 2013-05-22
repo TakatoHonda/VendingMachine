@@ -1,6 +1,6 @@
 package window.confirmWindow;
 
-import gui.VendGui;
+import gui.VendingMachineGUI;
 import gui.parts.button.StationButton;
 
 import java.awt.Color;
@@ -32,13 +32,13 @@ public class ConfirmWindow extends JFrame{
 	private JLabel priceLabel;
 	private JLabel leaveTimeLabel;
 	private JLabel tripLabel;
-	private VendGui gui;
+	private VendingMachineGUI gui;
 	private TransitionStateManager tsManager;
 	private ConfirmButton confirmButton;
 	private CancelButton cancelButton;
 	
 	
-	public ConfirmWindow(VendGui gui, final VendingMachine vm, TransitionStateManager tsManager){
+	public ConfirmWindow(VendingMachineGUI gui, final VendingMachine vm, TransitionStateManager tsManager){
 		this.gui = gui;
 		this.vm = vm;
 		this.tsManager = tsManager;

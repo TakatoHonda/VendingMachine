@@ -21,13 +21,18 @@ public class NoCoinLight extends JLabel {
 	}
 
 	// If there is no coin, change color to red.
-	void changeColor() {
+	public void changeColor() {
 		if (coin == 50 && vm.ioNO50()) {
 			vm.ioACK();
-			this.setForeground(Color.red);
+			setForeground(Color.red);
+		}else{
+			setForeground(Color.pink);
 		}
 		if (coin == 100 && vm.ioNO100()) {
 			this.setForeground(Color.red);
+			vm.ioACK();
+		}else{
+			setForeground(Color.pink);
 		}
 	}
 

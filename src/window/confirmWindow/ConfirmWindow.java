@@ -4,6 +4,7 @@ import gui.VendingMachineGUI;
 import gui.parts.button.StationButton;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -50,23 +51,28 @@ public class ConfirmWindow extends JFrame{
 		setUndecorated(true);
 		setLayout(null);
 		stationNameLabel = new JLabel();
-		stationNameLabel.setBounds(50, 10, 200, 10);
-		stationNameLabel.setForeground(Color.black);
+		stationNameLabel.setBounds(5, 5, 285, 40);
+		stationNameLabel.setForeground(Color.white);
+		stationNameLabel.setFont(new Font("ÇlÇr ÉSÉVÉbÉN", Font.BOLD, 35));
 		add(stationNameLabel);
 
 		priceLabel = new JLabel();
-		priceLabel.setBounds(70, 30, 150, 10);
-		priceLabel.setForeground(Color.black);
+		priceLabel.setBounds(50, 50, 100, 40);
+		priceLabel.setForeground(Color.orange);
+		priceLabel.setFont(new Font("ÇlÇr ÉSÉVÉbÉN", Font.BOLD, 40));
 		add(priceLabel);
 
 		
 		leaveTimeLabel = new JLabel();
-		leaveTimeLabel.setBounds(50, 50, 200, 10);
-		leaveTimeLabel.setForeground(Color.black);
+		leaveTimeLabel.setBounds(135, 50, 200, 50);
+		leaveTimeLabel.setForeground(Color.white);
+		leaveTimeLabel.setFont(new Font("ÇlÇr ÉSÉVÉbÉN", Font.BOLD, 25));
 		add(leaveTimeLabel);
 		
 		tripLabel = new JLabel();
-		tripLabel.setBounds(100, 70, 200, 15);
+		tripLabel.setBounds(5, 60, 200, 40);
+		tripLabel.setFont(new Font("ÇlÇr ÉSÉVÉbÉN", Font.BOLD, 10));
+		tripLabel.setForeground(Color.white);
 		add(tripLabel);
 
 		confirmButton = new ConfirmButton(vm, tsManager, gui, this);
@@ -77,28 +83,27 @@ public class ConfirmWindow extends JFrame{
 	}
 	public void setVisible(final StationButton station){
 	// Set confirmWindow property
-		setTitle("Go to " + station.getName());
 		setVisible(true);
-		
+		gui.setEnabled(false);
 		// stationNameLabel
-		stationNameLabel.setText("Ticket to " + station.getName() + ".");
+		stationNameLabel.setText(station.getName());
 		
 		// priceLabel
-		priceLabel.setText("The Price is " + station.getPrice() + ".");
+		priceLabel.setText(""+station.getPrice());
 		
 		// leaveTimeLabel
-		leaveTimeLabel.setText("Next departure time: " + timeTable.getLeaveTime(station.getRoute()));
+		leaveTimeLabel.setText("<html>"+"Next: " + "<font color='#FA8072'>"+timeTable.getLeaveTime(station.getRoute())+"</font></html>");
 		// RoundTrip or Single-trip label
 		if (tsManager.isRoundTrip()){
-			tripLabel.setText("Round trip!");
+			tripLabel.setText(/*"<html><font color='#FA8072'>"+*/"Round="/*+"</font><html>"*/);
 		} else{
-			tripLabel.setText("Single trip!");
+			tripLabel.setText(/*"<html><font color='#FA8072'>"+*/"Single="/*+"</font><html>"*/);
 		}
 		confirmButton.setStation(station);
 		
 		// Set background
 		// ***************************************************************************************
-		JLabel label = new JLabel(ConBKGD);
+		/*JLabel label = new JLabel(ConBKGD);
 		label.setBounds(0, 0, ConBKGD.getIconWidth(), ConBKGD.getIconHeight());
 		JPanel imagePanel = (JPanel) this.getContentPane();
 		imagePanel.setOpaque(false);
@@ -109,6 +114,7 @@ public class ConfirmWindow extends JFrame{
 		this.setSize(ConBKGD.getIconWidth(), ConBKGD.getIconHeight());
 		this.setVisible(true);
 		// ***************************************************************************************
+		 * */
 	}
 
 }

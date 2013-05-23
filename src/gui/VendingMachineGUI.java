@@ -13,10 +13,7 @@ import gui.parts.label.StationLabel;
 
 import java.awt.BasicStroke;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -37,44 +34,23 @@ import manager.TransitionStateManager;
 @SuppressWarnings("serial")
 public
 class VendingMachineGUI extends JFrame{
-	private ImageIcon coin50Icon;
-	private ImageIcon coin100Icon;
-	private ImageIcon coin500Icon;
+	private ImageIcon coin50Icon,coin100Icon,coin500Icon;
 	private ImageIcon background;
 	private InputCoinDisplay icDisplay;
 	private ChargeCoinDisplay ccDisplay;
 	private TransitionStateManager tsManager;
 	private VendingMachineGUI gui;
-	private StationButton yatuButton;
-	private StationButton tamaButton;
-	private StationButton araoButton;
-	private StationButton homeButton;
-	private StationButton kawaButton;
-	private StationButton heisButton;
-	private StationButton kamiButton;
-	private StationButton tatuButton;
-	private StationLabel yatuLabel;
-	private StationLabel tamaLabel;
-	private StationLabel araoLabel;
-	private StationLabel homeLabel;
-	private StationLabel kawaLabel;
-	private StationLabel heisLabel;
-	private StationLabel kamiLabel;
-	private StationLabel tatuLabel;
-	private NoCoinLight no50Light;
-	private NoCoinLight no100Light;
+	private StationButton yatuButton,tamaButton,araoButton,homeButton,kawaButton,heisButton,kamiButton,tatuButton;
+	private StationLabel yatuLabel,tamaLabel,araoLabel,homeLabel,kawaLabel,heisLabel,kamiLabel,tatuLabel;
+	private NoCoinLight no50Light,no100Light;
 	private RoundTripButton roundTripButton;
-	private CoinButton coin50Button;
-	private CoinButton coin100Button;
-	private CoinButton coin500Button;
+	private CoinButton coin50Button,coin100Button,coin500Button;
 	private ResetButton resetButton;
-	private JLabel inputLabel;
-	private JLabel chargeLabel; 
-	private JLabel no50Label;
-	private JLabel no100Label;
+	private JLabel inputLabel,chargeLabel; 
+	private JLabel no50Label,no100Label;
 	private RetButton retButton;
 	private ConfirmWindow confirmWindow;
-	//static VendingMachine vm = new VendingMachine();
+//static VendingMachine vm = new VendingMachine();
 	static VendingMachine vm = new VendingMachine();
 	
 	public static void main(String args[]){

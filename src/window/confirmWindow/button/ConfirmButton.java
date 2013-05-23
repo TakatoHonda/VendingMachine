@@ -31,10 +31,12 @@ public class ConfirmButton extends JButton implements MouseListener{
 		this.tsManager = tsManager;
 		this.gui = gui;
 		this.confirmWindow = confirmWindow;
-		setBounds(90, 90, 30, 30);
-		setIcon(ConButIcon);
+		setBounds(0, 90, 140, 60);
+		//setIcon(ConButIcon);
+		setForeground(Color.white);
+		setText("Confirm");
 		setContentAreaFilled(false);
-		setBorderPainted(false);
+		//setBorderPainted(false);
 		addMouseListener(this);
 	}
 	public void setStation(StationButton station){
@@ -79,11 +81,16 @@ public class ConfirmButton extends JButton implements MouseListener{
 		for (int i = 0; i < 2; i++){
 			if (vm.ioSEL150()){
 				System.out.println("get ticket 150");
-				TicketPanel ticketFrame = new TicketPanel("ticket 150");
+				TicketPanel ticketFrame = new TicketPanel("150");
+				ticketFrame.setVisible(true);
 			} else if (vm.ioSEL200()){
 				System.out.println("get ticket 200");
+				TicketPanel ticketFrame = new TicketPanel("200");
+				ticketFrame.setVisible(true);
 			} else if (vm.ioSEL450()){
 				System.out.println("get ticket 450");
+				TicketPanel ticketFrame = new TicketPanel("450");
+				ticketFrame.setVisible(true);
 			}else{
 				AlertWindow alertWindow = new AlertWindow("Cannot sell for cannot return the charge.");
 				alertWindow.setVisible(true);
@@ -94,6 +101,7 @@ public class ConfirmButton extends JButton implements MouseListener{
 		tsManager.changeNoCoinLight();
 	confirmWindow.setVisible(false);
 	gui.setEnabled(true);
+	gui.paint(getGraphics());
 	tsManager.retCoins();
 }
 

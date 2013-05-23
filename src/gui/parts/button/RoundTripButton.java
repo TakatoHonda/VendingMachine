@@ -42,9 +42,8 @@ public class RoundTripButton extends JButton implements MouseListener {
 			isRoundTrip = true;
 			this.setIcon(onIcon);
 		}
-		tsManager.setRoundTrip(isRoundTrip);		
+		tsManager.setRoundTrip(isRoundTrip);	
 	}
-
 	public void mouseEntered(MouseEvent e) {
 	}
 

@@ -1,15 +1,6 @@
 package gui;
 
 
-import gui.parts.button.CoinButton;
-import gui.parts.button.ResetButton;
-import gui.parts.button.RetButton;
-import gui.parts.button.RoundTripButton;
-import gui.parts.button.StationButton;
-import gui.parts.display.ChargeCoinDisplay;
-import gui.parts.display.InputCoinDisplay;
-import gui.parts.display.NoCoinLight;
-import gui.parts.label.StationLabel;
 
 import java.awt.BasicStroke;
 
@@ -27,9 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import window.confirmWindow.ConfirmWindow;
-
-
-import machineTest.*;
+import gui.parts.button.CoinButton;
+import gui.parts.button.RetButton;
+import gui.parts.button.RoundTripButton;
+import gui.parts.button.StationButton;
+import gui.parts.display.ChargeCoinDisplay;
+import gui.parts.display.InputCoinDisplay;
+import gui.parts.display.NoCoinLight;
+import gui.parts.label.StationLabel;
+import machine.*;
 import manager.TransitionStateManager;
 @SuppressWarnings("serial")
 public
@@ -45,7 +42,6 @@ class VendingMachineGUI extends JFrame{
 	private NoCoinLight no50Light,no100Light;
 	private RoundTripButton roundTripButton;
 	private CoinButton coin50Button,coin100Button,coin500Button;
-	private ResetButton resetButton;
 	private JLabel inputLabel,chargeLabel; 
 	private JLabel no50Label,no100Label;
 	private RetButton retButton;
@@ -68,7 +64,7 @@ class VendingMachineGUI extends JFrame{
 		coin50Icon = new ImageIcon("./img/coin50.png");
 		coin100Icon = new ImageIcon("./img/coin100.png");
 		coin500Icon = new ImageIcon("./img/coin500.png");
-		background = new ImageIcon("./img/background.gif");
+		background = new ImageIcon("./img/background.png");
 		gui = this;
 		tatuButton= new StationButton("Tatsutaguchi",450,"Houhi",350,20);
 		heisButton= new StationButton("Heisei",150,"Houhi",280,70);
@@ -100,7 +96,6 @@ class VendingMachineGUI extends JFrame{
 		coin50Button= new CoinButton(50, coin50Icon, 430, 5, tsManager, vm);
 		coin100Button= new CoinButton(100, coin100Icon, 430, 45, tsManager, vm);
 		coin500Button= new CoinButton(500, coin500Icon, 430, 85, tsManager, vm);
-		resetButton= new ResetButton();
 		inputLabel= new JLabel("Amount");
 		chargeLabel= new JLabel("Charge");
 		no50Label= new JLabel("50");
@@ -140,12 +135,12 @@ class VendingMachineGUI extends JFrame{
 		add(coin100Button);
 		add(coin500Button);
 
-		// Set reset button
-		add(resetButton);
-
+		
 		// Display label
 		inputLabel.setBounds(285, 180, 75, 20);
+		inputLabel.setForeground(Color.white);
 		chargeLabel.setBounds(290, 205, 75, 20);
+		chargeLabel.setForeground(Color.white);
 		add(inputLabel);
 		add(chargeLabel);
 
@@ -165,7 +160,9 @@ class VendingMachineGUI extends JFrame{
 
 		// NoCionLihgt labels
 		no50Label.setBounds(380, 160, 75, 20);
+		no50Label.setForeground(Color.white);
 		no100Label.setBounds(380, 140, 75, 20);
+		no100Label.setForeground(Color.white);
 		add(no50Label);
 		add(no100Label);
 

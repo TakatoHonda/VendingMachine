@@ -2,7 +2,7 @@ package gui.parts.display;
 
 import javax.swing.JTextField;
 
-import machineTest.VendingMachine;
+import machine.VendingMachine;
 
 @SuppressWarnings("serial")
 public class InputCoinDisplay extends JTextField{

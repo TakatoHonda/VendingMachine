@@ -19,8 +19,8 @@ public class RoundTripButton extends JButton implements MouseListener {
 	StationLabel[] stLabel;
 	StationButton[] station;
 	TransitionStateManager tsManager;
-	ImageIcon offIcon = new ImageIcon("./img/roundTripIcon_off.png");
-	ImageIcon onIcon = new ImageIcon("./img/roundTripIcon_on.png");
+	ImageIcon offIcon = new ImageIcon("./img/roundTripIcon0.png");
+	ImageIcon onIcon = new ImageIcon("./img/roundTripIcon1.png");
 	int x = 430, y = 125;
 
 	public RoundTripButton(TransitionStateManager tsManager) {

@@ -3,9 +3,7 @@ import java.awt.Color;
 
 import javax.swing.JLabel;
 
-import machineTest.VendingMachine;
-import manager.TransitionStateManager;
-
+import machine.VendingMachine;
 @SuppressWarnings("serial")
 public class NoCoinLight extends JLabel {
 

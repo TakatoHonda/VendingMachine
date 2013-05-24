@@ -1,15 +1,8 @@
 package window.confirmWindow;
 
-import gui.VendingMachineGUI;
-import gui.parts.button.StationButton;
-
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,8 +10,9 @@ import javax.swing.JPanel;
 import window.confirmWindow.button.CancelButton;
 import window.confirmWindow.button.ConfirmButton;
 
-
-import machineTest.VendingMachine;
+import gui.VendingMachineGUI;
+import gui.parts.button.StationButton;
+import machine.VendingMachine;
 import manager.TransitionStateManager;
 
 
@@ -26,7 +20,7 @@ import manager.TransitionStateManager;
 
 @SuppressWarnings("serial")
 public class ConfirmWindow extends JFrame{
-	ImageIcon ConBKGD = new ImageIcon("./img/ConBKGD.jpg");
+	ImageIcon ConBKGD = new ImageIcon("./img/ConBKGD.png");
 	private ReadTimeTable timeTable = new ReadTimeTable();
 	private VendingMachine vm;
 	private JLabel stationNameLabel;
@@ -103,7 +97,7 @@ public class ConfirmWindow extends JFrame{
 		
 		// Set background
 		// ***************************************************************************************
-		/*JLabel label = new JLabel(ConBKGD);
+		JLabel label = new JLabel(ConBKGD);
 		label.setBounds(0, 0, ConBKGD.getIconWidth(), ConBKGD.getIconHeight());
 		JPanel imagePanel = (JPanel) this.getContentPane();
 		imagePanel.setOpaque(false);
@@ -114,7 +108,6 @@ public class ConfirmWindow extends JFrame{
 		this.setSize(ConBKGD.getIconWidth(), ConBKGD.getIconHeight());
 		this.setVisible(true);
 		// ***************************************************************************************
-		 * */
 	}
 
 }

@@ -6,7 +6,7 @@ import javax.swing.JButton;
 
 import window.alertWindow.AlertWindow;
 
-import machineTest.*;
+import machine.*;
 import manager.TransitionStateManager;
 @SuppressWarnings("serial")
 public class CoinButton extends JButton implements MouseListener{

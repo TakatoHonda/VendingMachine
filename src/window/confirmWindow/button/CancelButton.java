@@ -15,16 +15,16 @@ import window.confirmWindow.ConfirmWindow;
 public class CancelButton extends JButton implements MouseListener{
 	private  VendingMachineGUI gui;
 	private  ConfirmWindow confirmWindow;
-	ImageIcon CancelButIcon = new ImageIcon("./img/cancel-button.png");
+	ImageIcon CancelButIcon1 = new ImageIcon("./img/cancel1.png");
+	ImageIcon CancelButIcon2 = new ImageIcon("./img/cancel2.png");
 	public CancelButton(VendingMachineGUI gui, ConfirmWindow confirmWindow){
 		this.gui = gui;
 		this.confirmWindow = confirmWindow;
 		setBounds(140, 90, 140, 60);
-		//setIcon(CancelButIcon);
-		setText("Cancel");
+		setIcon(CancelButIcon1);
 		setForeground(Color.white);
 		setContentAreaFilled(false);
-		//setBorderPainted(false);
+		setBorderPainted(false);
 		addMouseListener(this);
 		
 	}
@@ -35,16 +35,18 @@ public class CancelButton extends JButton implements MouseListener{
 		}
 
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("entered!");
+		setIcon(CancelButIcon2);
 	}
 
 	public void mousePressed(MouseEvent e) {
 	}
 
 	public void mouseReleased(MouseEvent e) {
+		
 	}
 
 	public void mouseExited(MouseEvent e) {
+		setIcon(CancelButIcon1);
 	}
 
 }

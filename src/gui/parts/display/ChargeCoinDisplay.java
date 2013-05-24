@@ -2,7 +2,7 @@ package gui.parts.display;
 
 import javax.swing.JTextField;
 
-import machineTest.VendingMachine;
+import machine.VendingMachine;
 
 public class ChargeCoinDisplay extends JTextField{
 	private int c50, c100, c500;

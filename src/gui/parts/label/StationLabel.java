@@ -1,4 +1,6 @@
 package gui.parts.label;
+import java.awt.Color;
+
 import javax.swing.*;
 
 @SuppressWarnings("serial")
@@ -8,9 +10,9 @@ public class StationLabel extends JLabel{
 	public StationLabel(String sta_name, int x, int y, int price){
 		this.sta_name = sta_name;
 		this.price = price;
-		this.setBounds(x, y, 105, 25);
-		this.setText("<html>"+sta_name+"<br>"+price+"</html>");
-		
+		setBounds(x, y, 105, 25);
+		setText("<html>"+sta_name+"<br>"+price+"</html>");
+		setForeground(Color.white);
 	}
 	public void setPrice(boolean isClicked){
 		if(isClicked == true){

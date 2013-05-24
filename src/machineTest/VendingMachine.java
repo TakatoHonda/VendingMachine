@@ -20,6 +20,7 @@ public class VendingMachine{
 	public static boolean sel150Flag= false;
 	public static boolean sel200Flag= false;
 	public static boolean sel450Flag= false;
+	public static boolean notSelFlag= false;
 	public static boolean twiceFlag= false;
 	public static int chargeCoin50= 0;
 	public static int chargeCoin100= 0;
@@ -78,6 +79,7 @@ public class VendingMachine{
 				sel150Flag= false;
 				sel200Flag= false;
 				sel450Flag= false;
+				notSelFlag= true;
 				setAmount();
 				setReturnCoins();
 				break;
@@ -213,6 +215,9 @@ public class VendingMachine{
 		return false;
 	}
 
+	public boolean ioNOTSEL(){
+		return notSelFlag;
+	}
 	public boolean ioR50(){
 		setReturnCoins();
 		if (chargeCoin50> 0){

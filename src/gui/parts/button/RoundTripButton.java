@@ -1,19 +1,16 @@
 package gui.parts.button;
 
 
-
-import gui.parts.label.StationLabel;
-
+import java.awt.event.*;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import gui.parts.label.StationLabel;
 import manager.TransitionStateManager;
 
 
 
-import java.awt.event.*;
 
-@SuppressWarnings("serial")
 public class RoundTripButton extends JButton implements MouseListener {
 	boolean isRoundTrip = false;
 	StationLabel[] stLabel;
@@ -34,6 +31,7 @@ public class RoundTripButton extends JButton implements MouseListener {
 		return isRoundTrip;
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (isRoundTrip) {
 			isRoundTrip = false;
@@ -44,15 +42,19 @@ public class RoundTripButton extends JButton implements MouseListener {
 		}
 		tsManager.setRoundTrip(isRoundTrip);	
 	}
+	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 

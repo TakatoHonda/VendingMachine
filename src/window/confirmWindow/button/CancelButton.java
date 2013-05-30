@@ -5,13 +5,11 @@ import gui.VendingMachineGUI;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import window.confirmWindow.ConfirmWindow;
 
-@SuppressWarnings("serial")
 public class CancelButton extends JButton implements MouseListener{
 	private  VendingMachineGUI gui;
 	private  ConfirmWindow confirmWindow;
@@ -28,23 +26,28 @@ public class CancelButton extends JButton implements MouseListener{
 		addMouseListener(this);
 		
 	}
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		confirmWindow.setVisible(false);
 		gui.setEnabled(true);
 		gui.paint(getGraphics());
 		}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		setIcon(CancelButIcon2);
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		setIcon(CancelButIcon1);
 	}

@@ -5,7 +5,6 @@ import gui.parts.display.ChargeCoinDisplay;
 import gui.parts.display.InputCoinDisplay;
 import gui.parts.display.NoCoinLight;
 import gui.parts.label.StationLabel;
-import window.confirmWindow.ConfirmWindow;
 
 public class TransitionStateManager{
 	private int coin50;

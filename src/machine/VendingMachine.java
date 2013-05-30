@@ -1,406 +1,263 @@
 package machine;
 
-import java.io.*;
-
 public class VendingMachine{
-	private static final String D_P0= "/sys/class/gpio/CON9_1/";
-	private static final String D_P1= "/sys/class/gpio/CON9_2/";
-	private static final String D_P2= "/sys/class/gpio/CON9_11/";
-	private static final String D_STB= "/sys/class/gpio/CON9_12/";
-	private static final String D_ACK= "/sys/class/gpio/CON9_13/";
-	private static final String D_RET= "/sys/class/gpio/CON9_14/";
-	private static final String D_TWICE= "/sys/class/gpio/CON9_15/";
-	private static final String D_RST= "/sys/class/gpio/CON9_16/";
-	private static final String D_R0= "/sys/class/gpio/CON9_17/";
-	private static final String D_R1= "/sys/class/gpio/CON9_18/";
-	private static final String D_E0= "/sys/class/gpio/CON9_21/";
-	private static final String D_E1= "/sys/class/gpio/CON9_22/";
-	private static final String D_E2= "/sys/class/gpio/CON9_23/";
-	private static final String D_SEL0= "/sys/class/gpio/CON9_24/";
-	private static final String D_SEL1= "/sys/class/gpio/CON9_25/";
-	private static RandomAccessFile P0, P1, P2, STB, ACK, RET, TWICE, RST, R0, R1, E0, E1, E2, SEL0, SEL1;
+	private static final int DEF_COIN= 50;
+	public static int innerCoin50= DEF_COIN;
+	public static int innerCoin100= DEF_COIN;
+	public static int innerCoin500= DEF_COIN;
+	public static final int COIN_MAX= 100;
+	public static int c50= 0;
+	public static int c100= 0;
+	public static int c500= 0;
+	public static int coinAmount= 0;
+	public static boolean iovrFlag= false;
+	public static boolean sovrFlag= false;
+	public static boolean req150Flag= false;
+	public static boolean req200Flag= false;
+	public static boolean req450Flag= false;
+	public static boolean sel150Flag= false;
+	public static boolean sel200Flag= false;
+	public static boolean sel450Flag= false;
+	public static boolean notSelFlag= false;
+	public static boolean twiceFlag= false;
+	public static int chargeCoin50= 0;
+	public static int chargeCoin100= 0;
+	public static int chargeCoin500= 0;
+	public static int chargeAmount= 0;
 
 	public VendingMachine(){
-		ioInit();
+		System.out.println("VendingMachine start.");
 	}
 
+	// ///////////////////////not IO/////////////////////////
+	public boolean isError(String coin, int num){
+		// System.out.println("isError() start.");
+		if (coin.equals("c50")){
+			iovrFlag= (coinAmount+ 50)> 1000 ? true:false;
+		} else if (coin.equals("c100")){
+			iovrFlag= (coinAmount+ 100)> 1000 ? true:false;
+		} else if (coin.equals("c500")){
+			iovrFlag= (coinAmount+ 500)> 1000 ? true:false;
+		}
+		sovrFlag= (num>= COIN_MAX) ? true:false;
+		return (sovrFlag|| iovrFlag);
+	}
+
+	public void setAmount(){
+		coinAmount= (c50)* 50+ (c100)* 100+ (c500)* 500;
+	}
+
+	public void setReturnCoins(){
+		while (!(coinAmount== 0)){
+			if (coinAmount- 500>= 0){
+				innerCoin500--;
+				chargeCoin500++;
+				coinAmount-= 500;
+			} else if (coinAmount- 100>= 0&& innerCoin100> 0){
+				innerCoin100--;
+				chargeCoin100++;
+				coinAmount-= 100;
+			} else if (coinAmount- 50>= 0&& innerCoin50> 0){
+				innerCoin50--;
+				chargeCoin50++;
+				coinAmount-= 50;
+			} else{
+				System.err.println("Error noCoin");
+				setChargeAmount();
+				coinAmount= chargeAmount;
+				innerCoin50+= chargeCoin50;
+				innerCoin100+= chargeCoin100;
+				innerCoin500+= chargeCoin500;
+				chargeCoin50= 0;
+				chargeCoin100= 0;
+				chargeCoin500= 0;
+				req150Flag= false;
+				req200Flag= false;
+				req450Flag= false;
+				sel150Flag= false;
+				sel200Flag= false;
+				sel450Flag= false;
+				notSelFlag= true;
+				setAmount();
+				setReturnCoins();
+				break;
+			}
+			setChargeAmount();
+		}
+		if (coinAmount== 0){
+			req150Flag= false;
+			req200Flag= false;
+			req450Flag= false;
+			c50= 0;
+			c100= 0;
+			c500= 0;
+			setAmount();
+		}
+	}
+
+	public void setChargeAmount(){
+		chargeAmount= chargeCoin50* 50+ chargeCoin100* 100+ chargeCoin500* 500;
+	}
+
+	// //////////////////////notIO//////////////////////////////////
+
 	public void ioC50(){
-		try{
-			P0.writeBytes("1");
-			P0.seek(0);
-			P1.writeBytes("0");
-			P1.seek(0);
-			P2.writeBytes("0");
-			P2.seek(0);
-			System.out.println("send C50");
-		} catch (Exception e){
-			System.out.println("error in ioC50()");
+		if (!isError("c50", innerCoin50)){
+			c50++;
+			innerCoin50++;
+			setAmount();
+			System.out.println("coin50 add:"+ c50);
+			System.out.println("total:"+ innerCoin50);
+			System.out.println("coinAmount:"+ coinAmount);
+		} else{
+			System.err.println("Error: "+ "sovrFlag="+ sovrFlag+ " iovrFlag="+ iovrFlag);
 		}
 	}
 
 	public void ioC100(){
-		try{
-			P0.writeBytes("0");
-			P0.seek(0);
-			P1.writeBytes("0");
-			P1.seek(0);
-			P1.writeBytes("1");
-			P1.seek(0);
-			P2.writeBytes("0");
-			P2.seek(0);
-			System.out.println("send C100");
-		} catch (Exception e){
-			System.out.println("error in ioC100()");
+		if (!isError("c100", innerCoin100)){
+			c100++;
+			innerCoin100++;
+			setAmount();
+			System.out.println("coin100 add:"+ c100);
+			System.out.println("total:"+ innerCoin100);
+			System.out.println("coinAmount:"+ coinAmount);
+		} else{
+			System.err.println("Error: "+ "sovrFlag="+ sovrFlag+ " iovrFlag="+ iovrFlag);
 		}
 	}
 
 	public void ioC500(){
-		try{
-			P0.writeBytes("0");
-			P0.seek(0);
-			P1.writeBytes("0");
-			P1.seek(0);
-			P2.writeBytes("0");
-			P2.seek(0);
-			P2.writeBytes("1");
-			P0.seek(0);
-			System.out.println("send C500");
-		} catch (Exception e){
-			System.out.println("error in ioC500()");
+		if (!isError("c500", innerCoin500)){
+			c500++;
+			innerCoin500++;
+			setAmount();
+			System.out.println("coin500 add:"+ c500);
+			System.out.println("total:"+ innerCoin500);
+			System.out.println("coinAmount:"+ coinAmount);
+		} else{
+			System.err.println("Error: "+ "sovrFlag="+ sovrFlag+ " iovrFlag="+ iovrFlag);
 		}
 	}
 
 	public void ioREQ150(){
-		try{
-			P0.writeBytes("1");
-			P0.seek(0);
-			P1.writeBytes("1");
-			P1.seek(0);
-			P2.writeBytes("0");
-			P2.seek(0);
-			System.out.println("Send request 150ticket");
-		} catch (Exception e){
-			System.out.println("error in ioREQ150()");
-		}
+		req150Flag= true;
 	}
 
 	public void ioREQ200(){
-		try{
-			P0.writeBytes("1");
-			P0.seek(0);
-			P1.writeBytes("0");
-			P1.seek(0);
-			P2.writeBytes("1");
-			P2.seek(0);
-			System.out.println("Send request 200ticket");
-		} catch (Exception e){
-			System.out.println("error in ioREQ200()");
-		}
+		req200Flag= true;
 	}
 
 	public void ioREQ450(){
-		try{
-			P0.writeBytes("0");
-			P0.seek(0);
-			P1.writeBytes("1");
-			P1.seek(0);
-			P2.writeBytes("1");
-			P2.seek(0);
-			System.out.println("Send request 450ticket");
-		} catch (Exception e){
-			System.out.println("error in ioREQ450()");
-		}
+		req450Flag= true;
 	}
 
 	public void ioTWICE(){
-		try{
-			TWICE.writeBytes("1");
-			TWICE.seek(0);
-			System.out.println("Send signal for roundtrip");
-		} catch (Exception e){
-			System.out.println("error in ioTWICE()");
-		}
+		twiceFlag= true;
 	}
 
 	public void ioRET(){
-		try{
-			RET.writeBytes("1");
-			RET.seek(0);
-			RET.writeBytes("0");
-			RET.seek(0);
-			System.out.println("Send ioRET");
-		} catch (Exception e){
-			System.out.println("error in ioRET()");
-		}
+		setReturnCoins();
 	}
 
 	public void ioRST(){
-		try{
-			RST.writeBytes("1");
-			RST.seek(0);
-			RST.writeBytes("0");
-			RST.seek(0);
-			System.out.println("Send ioRST");
-		} catch (Exception e){
-			System.out.println("error in ioRST()");
-		}
 	}
 
 	public void ioACK(){
-		try{
-			ACK.writeBytes("1");
-			ACK.seek(0);
-			ACK.writeBytes("0");
-			ACK.seek(0);
-			System.out.println("Send ACK");
-		} catch (Exception e){
-			System.out.println("error in ioACK()");
-		}
 	}
 
 	public void ioSTB(){
-		try{
-			STB.writeBytes("1");
-			STB.seek(0);
-			STB.writeBytes("0");
-			STB.seek(0);
-			System.out.println("Send STB");
-		} catch (Exception e){
-			System.out.println("error in ioSTB()");
-		}
 	}
 
-	// ///////////////////////////////////////////////////////////
-	public boolean ioR50(){
-		try{
-			if (R0.read()== 1&& R1.read()== 0){
-				System.out.println("Get R50");
-				return true;
-			}
-		} catch (Exception e){
-			System.out.println("error in ioR50()");
+	public boolean ioIOVR(){
+		return iovrFlag;
+	}
+
+	public boolean ioSOVR(){
+		return sovrFlag;
+	}
+
+	public boolean ioSEL150(){
+		sel150Flag=true;
+		if (req150Flag== true&& coinAmount>= 150){
+			coinAmount-= 150;
+			if (!twiceFlag) setReturnCoins();
+			return sel150Flag;
+		} else if (coinAmount< 150){
+			setReturnCoins();
 		}
 		return false;
 	}
 
-	public boolean ioR100(){
-		try{
-			if (R0.read()== 0&& R1.read()== 1){
-				System.out.println("Get R100");
-				return true;
-			}
-		} catch (Exception e){
-			System.out.println("error in ioR50()");
+	public boolean ioSEL200(){
+		sel200Flag=true;
+		if (coinAmount>= 200&& req200Flag== true){
+			coinAmount-= 200;
+			if (!twiceFlag) setReturnCoins();
+			return sel200Flag;
+		} else if (coinAmount< 200){
+			setReturnCoins();
 		}
 		return false;
 	}
 
-	public boolean ioR500(){
-		try{
-			if (R0.read()== 1&& R1.read()== 1){
-				System.out.println("Get R500");
-				return true;
-			}
-		} catch (Exception e){
-			System.out.println("error in ioR50()");
+	public boolean ioSEL450(){
+		sel450Flag=true;
+		if (coinAmount>= 450&& req450Flag== true){
+			coinAmount-= 450;
+			if (!twiceFlag) setReturnCoins();
+			return sel450Flag;
+		} else if (coinAmount< 450){
+			setReturnCoins();
 		}
 		return false;
 	}
 
 	public boolean ioNotSel(){
-		boolean NotSel= false;
-		try{
-			if (E0.read()== 1&& E1.read()== 0&& E2.read()== 0){
-				NotSel= true;
-				System.out.println("Get NotSel");
-			}
-		} catch (Exception e){
-			System.out.println("error in ioNotSel()");
+		return false;
+	}
+	public boolean ioR50(){
+		setReturnCoins();
+		if (chargeCoin50> 0){
+			chargeCoin50--;
+			return true;
 		}
-		return NotSel;
+		return false;
+	}
+
+	public boolean ioR100(){
+		setReturnCoins();
+		if (chargeCoin100> 0){
+			chargeCoin100--;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean ioR500(){
+		setReturnCoins();
+		if (chargeCoin500> 0){
+			chargeCoin500--;
+			return true;
+		}
+		return false;
 	}
 
 	public boolean ioNO50(){
-		boolean NO50= false;
-		try{
-			if (E0.read()== 0&& E1.read()== 1&& E2.read()== 0){
-				NO50= true;
-				System.out.println("No coin 50");
-			}
-		} catch (Exception e){
-			System.out.println("error in ioNO50()");
-		}
-		return NO50;
+		if (innerCoin50== 0){ return true; }
+		return false;
 	}
 
 	public boolean ioNO100(){
-		boolean NO100= false;
-		try{
-			if (E0.read()== 1&& E1.read()== 1&& E2.read()== 0){
-				NO100= true;
-				System.out.println("No coin 100");
-			}
-		} catch (Exception e){
-			System.out.println("error in ioNO100()");
-		}
-		return NO100;
-	}
-
-	public boolean ioSOVR(){
-		boolean SOVR= false;
-		try{
-			if (E0.read()== 0&& E1.read()== 0&& E2.read()== 1){
-				SOVR= true;
-				System.out.println("NumberÅ@of coins exceeded!");
-			}
-		} catch (Exception e){
-			System.out.println("error in ioSOVR()");
-		}
-		return SOVR;
-	}
-
-	public boolean ioIOVR(){
-		boolean IOVR= false;
-		try{
-			if (E0.read()== 1&& E1.read()== 0&& E2.read()==1){
-				IOVR= true;
-				System.out.println("Over 1000");
-			}
-		} catch (Exception e){
-			System.out.println("error in ioIOVR()");
-		}
-		return IOVR;
-	}
-
-	public boolean ioSEL150(){
-		boolean SEL150= false;
-		try{
-			if (SEL0.read()==1 && SEL1.read()==0){
-				SEL150= true;
-				System.out.println("Sell ticket150");
-			}
-		} catch (Exception e){
-			System.out.println("error in ioSEL150()");
-		}
-		return SEL150;
-	}
-
-	public boolean ioSEL200(){
-		boolean SEL200= false;
-		try{
-			if (SEL0.read()==0 && SEL1.read()==1){
-				SEL200= true;
-				System.out.println("Sell ticket200");
-			}
-		} catch (Exception e){
-			System.out.println("error in ioSEL200()");
-		}
-		return SEL200;
-	}
-
-	public boolean ioSEL450(){
-		boolean SEL450= false;
-		try{
-			if (SEL0.read()==1 && SEL1.read()==1){
-				SEL450= true;
-				System.out.println("Sell ticket450");
-			}
-		} catch (Exception e){
-			System.out.println("error in ioSEL450()");
-		}
-		return SEL450;
+		if (innerCoin100== 0){ return true; }
+		return false;
 	}
 
 	public void ioInit(){
-		ioDirectionInit();
-		ioOpenInit();
-
-		try{
-			P0.writeBytes("0");
-			P0.seek(0);
-			P1.writeBytes("0");
-			P1.seek(0);
-			P2.writeBytes("0");
-			P2.seek(0);
-			RET.writeBytes("0");
-			RET.seek(0);
-			STB.writeBytes("0");
-			STB.seek(0);
-			TWICE.writeBytes("0");
-			TWICE.seek(0);
-			ACK.writeBytes("0");
-			ACK.seek(0);
-			RST.writeBytes("1");
-			RST.seek(0);
-			RST.writeBytes("0");
-			RST.seek(0);
-			System.out.println("ioInit() OK.");
-		} catch (Exception e){
-			System.out.println("error in ionInit()");
-		}
-	}
-
-	public void ioDirectionInit(){
-		String[] io= { D_SEL0, D_SEL1, D_R0, D_R1, D_E0, D_E1, D_E2, D_TWICE, D_STB, D_P0, D_P1, D_P2, D_RET, D_ACK };
-		String[] set= { "in", "in", "in", "in", "in", "in", "in", "out", "out", "out", "out", "out", "out", "out",
-				"out" };
-
-		for (int i= 0; i< io.length; i++){
-			try{
-				FileWriter f= new FileWriter(new File(io[i]+ "direction"));
-				f.write(set[i]);
-				f.close();
-				System.out.println("ioDirectionInit OK.");
-			} catch (Exception e){
-				System.out.println("error in ioDirectionInit()"+ io[i]);
-			}
-		}
-	}
-
-	public void ioOpenInit(){
-		try{
-			SEL0= new RandomAccessFile(D_SEL0+ "value", "r");
-			SEL1= new RandomAccessFile(D_SEL1+ "value", "r");
-			R0= new RandomAccessFile(D_R0+ "value", "r");
-			R1= new RandomAccessFile(D_R1+ "value", "r");
-			E0= new RandomAccessFile(D_E0+ "value", "r");
-			E1= new RandomAccessFile(D_E1+ "value", "r");
-			E2= new RandomAccessFile(D_E2+ "value", "r");
-
-			P0= new RandomAccessFile(D_P0+ "value", "rw");
-			P1= new RandomAccessFile(D_P1+ "value", "rw");
-			P2= new RandomAccessFile(D_P2+ "value", "rw");
-			RET= new RandomAccessFile(D_RET+ "value", "rw");
-			ACK= new RandomAccessFile(D_ACK+ "value", "rw");
-			RST= new RandomAccessFile(D_RST+ "value", "rw");
-			TWICE= new RandomAccessFile(D_TWICE+ "value", "rw");
-			STB= new RandomAccessFile(D_STB+ "value", "rw");
-			System.out.println("ioOpenInit() OK.");
-		} catch (Exception e){
-			System.out.println("error in ioOpenInit()");
-		}
 	}
 
 	public void ioClose(){
-		try{
-			P0.close();
-			P1.close();
-			P2.close();
-			STB.close();
-			RET.close();
-			ACK.close();
-			TWICE.close();
-			R0.close();
-			R1.close();
-			E0.close();
-			E1.close();
-			E2.close();
-			SEL0.close();
-			SEL1.close();
-			RST.close();
-			System.out.println("ioClose() OK.");
-		} catch (Exception e){
-			System.out.println("error in ioClose()");
-		}
+		System.out.println("VendingMachine end.");
 	}
+
 }

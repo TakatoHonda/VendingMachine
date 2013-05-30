@@ -18,7 +18,6 @@ import manager.TransitionStateManager;
 
 
 
-@SuppressWarnings("serial")
 public class ConfirmWindow extends JFrame{
 	ImageIcon ConBKGD = new ImageIcon("./img/ConBKGD.png");
 	private ReadTimeTable timeTable = new ReadTimeTable();
@@ -44,6 +43,7 @@ public class ConfirmWindow extends JFrame{
 		setResizable(false);
 		setUndecorated(true);
 		setLayout(null);
+		
 		stationNameLabel = new JLabel();
 		stationNameLabel.setBounds(5, 5, 285, 40);
 		stationNameLabel.setForeground(Color.white);
@@ -60,7 +60,7 @@ public class ConfirmWindow extends JFrame{
 		leaveTimeLabel = new JLabel();
 		leaveTimeLabel.setBounds(135, 50, 200, 50);
 		leaveTimeLabel.setForeground(Color.white);
-		leaveTimeLabel.setFont(new Font("ÇlÇr ÉSÉVÉbÉN", Font.BOLD, 25));
+		leaveTimeLabel.setFont(new Font("ÇlÇr ÉSÉVÉbÉN", Font.BOLD, 20));
 		add(leaveTimeLabel);
 		
 		tripLabel = new JLabel();

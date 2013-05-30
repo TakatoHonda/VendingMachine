@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 
-@SuppressWarnings("serial")
 public class AlertWindow extends JFrame{
 	private JLabel label;
 	private Timer timer;
@@ -26,7 +25,8 @@ public class AlertWindow extends JFrame{
 		label.setBounds(200, 100, 470, 250);
 		add(label);
 		timer = new Timer(2000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            @Override
+			public void actionPerformed(ActionEvent e) {
                 aw.setVisible(false);
                 aw.dispose();
             }

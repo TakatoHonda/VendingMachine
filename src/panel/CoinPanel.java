@@ -4,31 +4,36 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-public class TicketPanel extends JFrame implements MouseListener{
-	private ImageIcon ticket150Icon = new ImageIcon("./img/ticket150.png");
-	private ImageIcon ticket200Icon = new ImageIcon("./img/ticket200.png");
-	private ImageIcon ticket450Icon = new ImageIcon("./img/ticket450.png");
-	private final int WIDTH=80;
-	private final int HEIGHT=30;
-	public TicketPanel(String price){
-		switch(Integer.parseInt(price)){
-		case 150:
-			setBackground(ticket150Icon);
+public class CoinPanel extends JFrame implements MouseListener {
+
+	private ImageIcon Coin50Icon = new ImageIcon("./img/chargeCoin50.png");
+	private ImageIcon Coin100Icon = new ImageIcon("./img/chargeCoin100.png");
+	private ImageIcon Coin500Icon = new ImageIcon("./img/chargeCoin500.png");
+
+	private final int WIDTH = 60;
+	private final int HEIGHT = 40;
+
+	public CoinPanel(String price) {
+
+		switch (Integer.parseInt(price)) {
+		case 50:
+			setBackground(Coin50Icon);
 			break;
-		case 200:
-			setBackground(ticket200Icon);
+		case 100:
+			setBackground(Coin100Icon);
 			break;
-		case 450:			
-			setBackground(ticket450Icon);
-			break;
+		case 500:
+			setBackground(Coin500Icon);
 		}
-		
-		setBounds(randint(0,470-WIDTH), randint(50,200-HEIGHT), WIDTH, HEIGHT);
+
+		setBounds(randint(250, 470 - WIDTH), randint(50, 200 - HEIGHT), WIDTH,
+				HEIGHT);
 		setAlwaysOnTop(true);
 		setResizable(false);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -38,7 +43,8 @@ public class TicketPanel extends JFrame implements MouseListener{
 		add(label);
 		addMouseListener(this);
 	}
-	public void setBackground(ImageIcon icon){
+
+	public void setBackground(ImageIcon icon) {
 		JLabel background = new JLabel(icon);
 		background.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
 		JPanel imagePanel = (JPanel) this.getContentPane();
@@ -49,15 +55,17 @@ public class TicketPanel extends JFrame implements MouseListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(icon.getIconWidth(), icon.getIconHeight());
 	}
-	
-	private int randint(int min,int max){
+
+	private int randint(int min, int max) {
 		Random rand = new Random();
-		return ((Math.abs(rand.nextInt())%max)+min);
+		System.out.println(((Math.abs(rand.nextInt()) % max) + min));
+		return ((Math.abs(rand.nextInt()) % (max-min)) + min);
 	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		setVisible(false);
-		}
+	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {

@@ -9,22 +9,24 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import position.Position;
 import window.confirmWindow.ConfirmWindow;
 
-@SuppressWarnings("serial")
 public class StationButton extends JButton implements MouseListener{
-	ImageIcon buttonLight = new ImageIcon("./img/stationIcon.gif");
+	ImageIcon buttonLight = new ImageIcon("./img/stationIcon.png");
 	private String name;
 	private String route;
 	private int    price;
 	private ConfirmWindow confirmWindow;
-	public StationButton(String name, int price, String route, int x, int y){
-		this.setEnabled(false);
+	private Position position;
+	public StationButton(String name, int price, String route, Position position){
 		this.name = name;
 		this.price = price;
 		this.route = route;
-		this.setBounds(x, y, 30, 30);
-		this.setIcon(buttonLight);
+		this.position =position;
+		setBounds(position.x, position.y, 30, 30);
+		setIcon(buttonLight);
+		setEnabled(false);
 	}
 	public void setButtonState(int amount){
 		if ((price <= amount) && (this.isEnabled() == false)){
@@ -45,6 +47,7 @@ public class StationButton extends JButton implements MouseListener{
 	public void setConfirmWindow(ConfirmWindow confirmWindow){
 		this.confirmWindow = confirmWindow;
 	}
+	@Override
 	public String getName(){
 		return name;
 	}
@@ -58,19 +61,24 @@ public class StationButton extends JButton implements MouseListener{
 		setEnabled(false);
 		removeMouseListener(this);
 	}
+	@Override
 	public void mouseClicked(MouseEvent e){
 			confirmWindow.setVisible(this);
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e){
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e){
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e){
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e){
 	}
 

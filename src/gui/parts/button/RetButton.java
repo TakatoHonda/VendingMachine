@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import machine.VendingMachine;
 import manager.TransitionStateManager;
 
-@SuppressWarnings("serial")
 public class RetButton extends JButton implements MouseListener {
 	
 	private ImageIcon icon0 = new ImageIcon("./img/retIcon0.png");
@@ -30,22 +29,27 @@ public class RetButton extends JButton implements MouseListener {
 		
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		vm.ioRET();
 		tsManager.retCoins();
 		}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		setIcon(icon1);
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		setIcon(icon0);
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		setIcon(icon0);
 	}
